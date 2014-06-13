@@ -1,0 +1,3535 @@
+<!DOCTYPE html>
+<html class="wf-proximanova-i4-active wf-proximanova-i6-active wf-proximanova-i7-active wf-proximanova-n4-active wf-proximanova-n6-active wf-proximanova-n7-active wf-active wf-museoslab-n1-active wf-museoslab-n3-active wf-museoslab-n5-active wf-museoslab-n7-active wf-athelas-i4-active wf-athelas-i7-active wf-athelas-n4-active wf-athelas-n7-active wf-museoslab-i1-active wf-museoslab-i3-active wf-museoslab-i5-active wf-museoslab-i7-active"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>How To Install Linux, nginx, MySQL, PHP (LEMP) stack on Ubuntu 12.04 | DigitalOcean</title>
+<meta content="LEMP stack is a group of open source software to get web servers up and running. The acronym stands for Linux, nginx (pronounced Engine x), MySQL, and PHP. This tutorial explains how to install the required repos to download nginx and php-fpm, how to install MySQL, how to install nginx,  how to install php-fpm, how to configure php and nginx, and how to create a php info page. This tutorial is written for Ubuntu 12.04." name="description">
+<meta content="[&quot;NGINX&quot;, &quot;Ubuntu&quot;, &quot;MySQL&quot;, &quot;PHP&quot;]" name="keywords">
+<!-- Twitter Meta -->
+<meta content="summary" name="twitter:card">
+<meta content="@digitalocean" name="twitter:site">
+<meta content="@digitalocean" name="twitter:creator">
+<meta content="How To Install Linux, nginx, MySQL, PHP (LEMP) stack on Ubuntu 12.04" name="twitter:title">
+<meta content="LEMP stack is a group of open source software to get web servers up and running. The acronym stands for Linux, nginx (pronounced Engine x), MySQL, and PHP. This tutorial explains how to install the required repos to download nginx and php-fpm, how to install MySQL, how to install nginx,  how to install php-fpm, how to configure php and nginx, and how to create a php info page. This tutorial is written for Ubuntu 12.04." name="twitter:description">
+<!-- Facebook Meta -->
+<meta content="How To Install Linux, nginx, MySQL, PHP (LEMP) stack on Ubuntu 12.04" name="og:title">
+<meta content="LEMP stack is a group of open source software to get web servers up and running. The acronym stands for Linux, nginx (pronounced Engine x), MySQL, and PHP. This tutorial explains how to install the required repos to download nginx and php-fpm, how to install MySQL, how to install nginx,  how to install php-fpm, how to configure php and nginx, and how to create a php info page. This tutorial is written for Ubuntu 12.04." name="og:description">
+<meta content="DigitalOcean" name="og:site_name">
+<meta content="article" name="og:type">
+
+
+<link href="nginx%20tut1_files/application-e952adb8f46040a3fd5061f0512f97e7.css" media="screen" rel="stylesheet" type="text/css">
+<meta content="authenticity_token" name="csrf-param">
+<meta content="nKsRTmdEyaoc0uD9WV3+PWPlCQDZmDuHs3RGYQ91yNs=" name="csrf-token">
+<script async="" src="nginx%20tut1_files/cbgapi.loaded_1"></script><script async="" src="nginx%20tut1_files/cbgapi.loaded_0"></script><script src="nginx%20tut1_files/51c8920f71ca6dc47d00002f.js" async="" type="text/javascript"></script><script src="nginx%20tut1_files/hn-button.js" id="hn-button.js" async=""></script><script gapi_processed="true" src="nginx%20tut1_files/plusone.js" async="" type="text/javascript"></script><script src="nginx%20tut1_files/all.js" async="" id="facebook-jssdk"></script><script src="nginx%20tut1_files/mixpanel-2.js" async="" type="text/javascript"></script><script type="text/javascript" async="" src="nginx%20tut1_files/5850.js"></script><script src="nginx%20tut1_files/widgets.js" async="" id="twitter-wjs"></script><script src="nginx%20tut1_files/ga.js" async="" type="text/javascript"></script><script async="" type="text/javascript" src="nginx%20tut1_files/mwy0yxy.js"></script><script type="text/javascript" src="nginx%20tut1_files/izu1uqu.js"></script>
+<style type="text/css">.tk-proxima-nova{font-family:"proxima-nova",sans-serif;}</style><link href="nginx%20tut1_files/d.css" rel="stylesheet"><script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<script>
+  //<![CDATA[
+    (function() {
+      var config = {
+        kitId: 'mwy0yxy',
+        scriptTimeout: 3000
+      };
+      var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+    })();
+    
+    var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-26573244-1']);
+     _gaq.push(['_trackPageview']);
+    
+     (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+    
+     /* <![CDATA[ */
+     var google_conversion_id = 1010666955;
+     var google_conversion_language = "en";
+     var google_conversion_format = "3";
+     var google_conversion_color = "ffffff";
+     var google_conversion_label = "g5d3CM2C9QIQy5v24QM";
+     var google_conversion_value = 0;
+     /* ]]> */
+  //]]>
+</script><style type="text/css">.tk-museo-slab{font-family:"museo-slab",serif;}.tk-athelas{font-family:"athelas",serif;}</style><link href="nginx%20tut1_files/d_002.css" rel="stylesheet">
+<img class="cpkgzdfuzxztpvxcxgsa" src="nginx%20tut1_files/seg" border="0" height="1" width="1"><img src="nginx%20tut1_files/a.gif" border="0" height="1" width="1"><script src="nginx%20tut1_files/roundtrip.js" type="text/javascript" async="true"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f2f2f2;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3b5998;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29447e;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f2f2f2;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+.fb_connect_bar_container div,.fb_connect_bar_container span,.fb_connect_bar_container a,.fb_connect_bar_container img,.fb_connect_bar_container strong{background:none;border-spacing:0;border:0;direction:ltr;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal;vertical-align:baseline}.fb_connect_bar_container{position:fixed;left:0 !important;right:0 !important;height:42px !important;padding:0 25px !important;margin:0 !important;vertical-align:middle !important;border-bottom:1px solid #333 !important;background:#3b5998 !important;z-index:99999999 !important;overflow:hidden !important}.fb_connect_bar_container_ie6{position:absolute;top:expression(document.compatMode=="CSS1Compat"? document.documentElement.scrollTop+"px":body.scrollTop+"px")}.fb_connect_bar{position:relative;margin:auto;height:100%;width:100%;padding:6px 0 0 0 !important;background:none;color:#fff !important;font-family:"lucida grande", tahoma, verdana, arial, sans-serif !important;font-size:13px !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;letter-spacing:normal !important;line-height:1 !important;text-decoration:none !important;text-indent:0 !important;text-shadow:none !important;text-transform:none !important;white-space:normal !important;word-spacing:normal !important}.fb_connect_bar a:hover{color:#fff}.fb_connect_bar .fb_profile img{height:30px;width:30px;vertical-align:middle;margin:0 6px 5px 0}.fb_connect_bar div a,.fb_connect_bar span,.fb_connect_bar span a{color:#bac6da;font-size:11px;text-decoration:none}.fb_connect_bar .fb_buttons{float:right;margin-top:7px}
+.fbpluginrecommendationsbarleft,.fbpluginrecommendationsbarright{position:fixed !important;bottom:0;z-index:999}.fbpluginrecommendationsbarleft{left:10px}.fbpluginrecommendationsbarright{right:10px}</style></head>
+<body data-twttr-rendered="true" class="community">
+<header>
+	<div class="wrapper">
+
+    <a href="https://www.digitalocean.com/" class="logo"></a>
+
+      <div id="entrance">
+        <a href="https://cloud.digitalocean.com/registrations/new" class="button" id="sign-up">Sign Up</a>
+        <a href="https://cloud.digitalocean.com/login" class="button" id="log-in">Log In</a>
+      </div>
+
+    <nav>
+      <ul>
+        <li><a href="https://www.digitalocean.com/community/" class="community">Community</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles">Tutorials</a></li>
+        <li><a href="https://www.digitalocean.com/community/questions">Questions</a></li>
+        <li><a href="https://www.digitalocean.com/community/projects">Projects</a></li>
+        <li><a href="https://www.digitalocean.com/community/tags">Explore</a></li>
+        <li class="irc-link"><a href="#">IRC</a></li>
+      </ul>
+
+      <div class="overlay" style="display:none;"></div>
+      <div class="box">
+       <a class="boxclose"></a>
+       <h1>Before you continue...</h1>
+       <p>
+        You are about to enter a community-supported IRC chat.  
+DigitalOcean is not responsible for its content. If you require 
+immediate assistance, please open a <a href="https://cloud.digitalocean.com/support">support ticket</a>.
+       </p>
+       <a href="http://webchat.freenode.net/?channels=digitalocean&amp;uio=d4" class="continue">Continue to IRC Chat</a>
+      </div>
+    </nav>
+
+    <form accept-charset="UTF-8" action="/community/search" data-remote="true" id="search" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="nKsRTmdEyaoc0uD9WV3+PWPlCQDZmDuHs3RGYQ91yNs=" type="hidden"></div>
+      <input name="search[query]" id="search_query" placeholder="Search the Community" type="text">
+
+      <button type="submit" class="icon-btn">
+        <span class="icon-arrow-down"></span>
+      </button>
+</form>  </div>
+</header>
+<div class="tutorial-single wrapper">
+
+<div id="tutorial-wrapper">
+  <div style="display: block; bottom: 0px; position: fixed;" class="tocify" id="table-of-contents">
+  <h3 id="toc-trigger">
+    <a href="#">
+    Contents
+    <span class="icon-navicon"></span>
+    </a>
+  </h3>
+  <ul class="tocify-header" id="tocify-header0"><li data-unique="Setup" class="tocify-item"><a>Setup</a></li></ul><ul class="tocify-header" id="tocify-header1"><li data-unique="StepOne—UpdateApt-Get" class="tocify-item"><a>Step One—Update Apt-Get</a></li></ul><ul class="tocify-header" id="tocify-header2"><li data-unique="StepTwo—InstallMySQL" class="tocify-item"><a>Step Two—Install MySQL</a></li></ul><ul class="tocify-header" id="tocify-header3"><li data-unique="StepThree—Installnginx" class="tocify-item"><a>Step Three—Install nginx</a></li></ul><ul class="tocify-header" id="tocify-header4"><li data-unique="StepFour—InstallPHP" class="tocify-item"><a>Step Four—Install PHP</a></li></ul><ul class="tocify-header" id="tocify-header5"><li data-unique="StepFive—Configurephp" class="tocify-item"><a>Step Five—Configure php</a></li></ul><ul class="tocify-header" id="tocify-header6"><li data-unique="StepSix—Configurenginx" class="tocify-item tocify-focus"><a>Step Six—Configure nginx</a></li></ul><ul class="tocify-header" id="tocify-header7"><li data-unique="StepSeven—CreateaphpInfoPage" class="tocify-item"><a>Step Seven—Create a php Info Page</a></li></ul><ul class="tocify-header" id="tocify-header8"><li data-unique="SeeMore" class="tocify-item"><a>See More</a></li></ul></div>
+
+  <div style="position: static; margin-left: 0px; top: 0px;" id="slim-sidebar">
+    <div class="big-upvote"></div>
+    <p class="author"></p>
+    <p class="date">June 13, 2012</p>
+    <span class="difficulty-level beginner">Beginner</span>
+  </div>
+
+  <div style="margin-left: 0px;" class="slim-body" id="tutorial-body">
+  <h1>How To Install Linux, nginx, MySQL, PHP (LEMP) stack on Ubuntu 12.04</h1>
+    <div id="tags">
+      <span>Tagged In: </span>
+      <a href="https://www.digitalocean.com/community/tags/nginx">Nginx</a>, <a href="https://www.digitalocean.com/community/tags/ubuntu">Ubuntu</a>, <a href="https://www.digitalocean.com/community/tags/mysql">My Sql</a>, <a href="https://www.digitalocean.com/community/tags/php">Php</a>
+    </div>
+
+  <div class="tutorial-content">
+    <h3>About Lemp</h3><hr>
+LEMP stack is a group of open source software to get web servers up and 
+running. The acronym stands for Linux, nginx (pronounced Engine x), 
+MySQL, and PHP. Since the server is already running Ubuntu, the linux 
+part is taken care of. Here is how to install the rest. <br><br>
+
+<div data-unique="Setup" name="Setup"></div><h2>Setup</h2><hr>
+
+The steps in this tutorial require the user to have root privileges. You can see how to set that up in the <a href="https://www.digitalocean.com/community/articles/initial-server-setup-with-ubuntu-12-04">Initial Server Setup Tutorial</a> in steps 3 and 4. <br><br>
+
+<div data-unique="StepOne—UpdateApt-Get" name="StepOne—UpdateApt-Get"></div><h2>Step One—Update Apt-Get</h2><hr>
+Throughout this tutorial we will be using apt-get as an installer for 
+all the server programs. On May 8th, 2012, a serious php vulnerability 
+was discovered, and it is important that we download all of the latest 
+patched software to protect the virtual private server. <br><br>
+
+Let's do a thorough update. 
+<pre>sudo apt-get update</pre><br>
+
+<div data-unique="StepTwo—InstallMySQL" name="StepTwo—InstallMySQL"></div><h2>Step Two—Install MySQL</h2><hr>
+MySQL is a powerful database management system used for organizing and retrieving data
+<br><br>
+To install MySQL, open terminal and type in these commands:<br>
+<pre>sudo apt-get install mysql-server php5-mysql</pre><br>
+During the installation, MySQL will ask you to set a root password. If 
+you miss the chance to set the password while the program is installing,
+ it is very easy to set the password later from within the MySQL shell.<br><br>
+
+Once you have installed MySQL, we should activate it with this command:
+
+<pre>sudo mysql_install_db</pre><br>
+
+Finish up by running the MySQL set up script:
+<pre>sudo /usr/bin/mysql_secure_installation</pre><br>
+The prompt will ask you for your current root password. <br><br>
+
+Type it in. 
+
+<pre>Enter current password for root (enter for none): 
+OK, successfully used password, moving on...</pre><br>
+Then the prompt will ask you if you want to change the root password. Go ahead and choose N and move on to the next steps. 
+<br><br>
+
+It’s easiest just to say Yes to all the options. At the end, MySQL will reload and implement the new changes. 
+<pre>By default, a MySQL installation has an anonymous user, allowing anyone
+to log into MySQL without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] y                                            
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] y
+... Success!
+
+By default, MySQL comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] y
+ ... Success!
+
+Cleaning up...</pre>
+
+Once you're done with that you can finish up by installing PHP.<br><br>
+
+<div data-unique="StepThree—Installnginx" name="StepThree—Installnginx"></div><h2>Step Three—Install nginx</h2><hr>
+
+Once MySQL is all set up, we can move on to installing nginx on the VPS.
+
+<pre>sudo apt-get install nginx</pre><br>
+
+nginx does not start on its own. To get nginx running, type:
+<pre>sudo service nginx start</pre><br>
+
+You can confirm that nginx has installed an your web server by directing your browser to your IP address. 
+
+You can run the following command to reveal your VPS's IP address.
+<pre>ifconfig eth0 | grep inet | awk '{ print $2 }'</pre><br>
+
+<div data-unique="StepFour—InstallPHP" name="StepFour—InstallPHP"></div><h2>Step Four—Install PHP</h2><hr>
+
+To install PHP-FPM, open terminal and type in these commands. We will 
+configure the details of nginx and php details in the next step:
+
+<pre>sudo apt-get install php5-fpm</pre><br>
+
+<div data-unique="StepFive—Configurephp" name="StepFive—Configurephp"></div><h2>Step Five—Configure php</h2><hr>
+We need to make one small change in the php configuration.Open up php.ini:
+<pre> sudo nano /etc/php5/fpm/php.ini</pre><br>
+
+Find the line, cgi.fix_pathinfo=1, and change the 1 to 0. 
+
+<pre>cgi.fix_pathinfo=0</pre>
+
+If this number is kept as 1, the php interpreter will do its best to 
+process the file that is as near to the requested file as possible. This
+ is a possible security risk. If this number is set to 0, conversely, 
+the interpreter will only process the exact file path—a much safer 
+alternative. Save and Exit. <br><br>
+
+We need to make another small change in the php5-fpm configuration.Open up www.conf:
+<pre> sudo nano /etc/php5/fpm/pool.d/www.conf</pre><br>
+
+Find the line, listen = 127.0.0.1:9000, and change the 127.0.0.1:9000 to /var/run/php5-fpm.sock. 
+
+<pre>listen = /var/run/php5-fpm.sock</pre>
+
+Save and Exit. <br><br>
+
+Restart php-fpm:
+
+<pre>sudo service php5-fpm restart</pre>
+
+<div data-unique="StepSix—Configurenginx" name="StepSix—Configurenginx"></div><h2>Step Six—Configure nginx</h2><hr>
+
+Open up the default virtual host file.
+
+<pre>sudo nano /etc/nginx/sites-available/default</pre><br>
+
+The configuration should include the changes below (the details of the changes are under the config information):<br><br>
+
+<strong>UPDATE:</strong> Newer Ubuntu versions create a directory called
+ 'html' instead of 'www' by default. If /usr/share/nginx/www does not 
+exist, it's probably called html. Make sure you update your 
+configuration appropriately.
+
+<pre> [...]
+server {
+        listen   80;
+     
+
+        root /usr/share/nginx/www;
+        index index.php index.html index.htm;
+
+        server_name example.com;
+
+        location / {
+                try_files $uri $uri/ /index.html;
+        }
+
+        error_page 404 /404.html;
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+              root /usr/share/nginx/www;
+        }
+
+        # pass the PHP scripts to FastCGI server listening on the php-fpm socket
+        location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+                
+        }
+
+}
+[...]</pre><br>
+
+
+Here are the details of the changes:<br><br>
+<ul><li>Add index.php to the index line. </li><br>
+<li>Change the server_name from local host to your domain name or IP address (replace the example.com in the configuration) </li><br>
+<li>Change the  correct lines in “location ~ \.php$ {“ section</li></ul><br>
+
+Save and Exit<br><br>
+
+<div data-unique="StepSeven—CreateaphpInfoPage" name="StepSeven—CreateaphpInfoPage"></div><h2>Step Seven—Create a php Info Page</h2><hr>
+
+We can quickly see all of the details of the new php configuration. <br><br>
+
+To set this up, first create a new file:
+
+<pre>sudo nano /usr/share/nginx/www/info.php</pre><br>
+
+Add in the following line:
+
+<pre>&lt;?php
+phpinfo();
+?&gt;</pre><br>
+
+Then Save and Exit. <br><br>
+
+Restart nginx
+<pre>sudo service nginx restart</pre><br>
+
+You can see the nginx and php-fpm configuration details by visiting http://youripaddress/info.php<br><br>
+
+Your LEMP stack is now set up and configured on your virtual private server.<br><br>
+
+
+<div data-unique="SeeMore" name="SeeMore"></div><h2>See More</h2>
+
+After installing LEMP, you can <a href="https://www.digitalocean.com/community/articles/how-to-install-wordpress-with-nginx-on-ubuntu-12-04">Install WordPress</a>, go on to do more with MySQL (<a href="https://www.digitalocean.com/community/articles/a-basic-mysql-tutorial">A Basic MySQL Tutorial</a>) or <a href="https://www.digitalocean.com/community/articles/how-to-install-phpmyadmin-on-a-lemp-server/">Install phpMyAdmin</a>, <a href="https://www.digitalocean.com/community/articles/how-to-create-a-ssl-certificate-on-nginx-for-ubuntu-12-04">Create an SSL Certificate</a>, or <a href="https://www.digitalocean.com/community/articles/how-to-set-up-vsftpd-on-ubuntu-12-04">Install an FTP Server</a>. <br><br>
+
+<br><br><div style="text-align: right; font-size: smaller;">By Etel Sverdlov</div>
+  </div>
+
+  
+  <div class="related">
+      <h3>Related Articles</h3>
+      <ul>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-serve-a-keepass2-password-file-with-nginx-on-an-ubuntu-14-04-server">How To Serve a KeePass2 Password File with Nginx on an Ubuntu 14.04 Server</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-use-haproxy-as-a-layer-7-load-balancer-for-wordpress-and-nginx-on-ubuntu-14-04">How To Use HAProxy As A Layer 7 Load Balancer For WordPress and Nginx On Ubuntu 14.04</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-create-a-ssl-certificate-on-nginx-for-ubuntu-14-04">How To Create a SSL Certificate on Nginx for Ubuntu 14.04</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-troubleshoot-common-site-issues-on-a-linux-server">How To Troubleshoot Common Site Issues on a Linux Server</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-install-dropplets-on-an-ubuntu-13-04-nginx-vps">How To Install Dropplets on an Ubuntu 13.04 NGINX VPS</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-install-ttrss-with-nginx-for-debian-7-on-a-vps">How To Install TTRSS with Nginx for Debian 7 on a VPS</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-deploy-sinatra-based-ruby-web-applications-on-ubuntu-13">How To Deploy Sinatra Based Ruby Web-Applications On Ubuntu 13</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/how-to-install-dokuwiki-with-nginx-on-an-ubuntu-12-04-vps">How To Install DokuWiki with Nginx on an Ubuntu 12.04 VPS</a></li>
+      </ul>
+  </div>
+
+  <div id="sharing-is-caring">
+  <h2>Share this Tutorial</h2>
+  <iframe style="width: 106px; height: 20px;" data-twttr-rendered="true" title="Twitter Tweet Button" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" src="nginx%20tut1_files/tweet_button.html" allowtransparency="true" scrolling="no" id="twitter-widget-0" frameborder="0"></iframe>
+  <div class=" fb_reset" id="fb-root">
+    <div class="fb-link" data-href="https://www.digitalocean.com/community/articles/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-12-04" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div>
+  <div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="nginx%20tut1_files/V80PAcvrynR.html" style="border: medium none;" tabindex="-1" title="Facebook Cross Domain Communication Frame" aria-hidden="true" id="fb_xdm_frame_https" scrolling="no" allowtransparency="true" name="fb_xdm_frame_https" frameborder="0"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="nginx%20tut1_files/ping.html" style="display: none;" scrolling="no" allowtransparency="true" name="f26da699120ca14" frameborder="0"></iframe></div></div></div>
+  <div id="___plus_0" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 91px; height: 20px;"><iframe title="+Share" data-gapiattached="true" src="nginx%20tut1_files/sharebutton.html" name="I0_1401760458585" id="I0_1401760458585" vspace="0" tabindex="0" style="position: static; top: 0px; width: 91px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" scrolling="no" marginwidth="0" marginheight="0" hspace="0" frameborder="0" width="100%"></iframe></div>
+  <iframe title="Hacker News Button" data-count="horizontal" data-url="https://www.digitalocean.com/community/articles/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-12-04" data-title="How To Install Linux, nginx, MySQL, PHP (LEMP) stack on Ubuntu 12.04 | DigitalOcean" class="hn-button" id="hn-button-5voikgo" name="hn-button-5voikgo" src="nginx%20tut1_files/a.html" frameborder="0" height="20" width="84"></iframe>
+</div>
+
+
+  <br>
+<div class="do-form tutorial-call-action" id="register">
+<div class="form-wrap">
+<h2><strong>Try this tutorial</strong> on an SSD cloud server.</h2>
+<p class="copy">Includes 512MB RAM, 20GB SSD Disk, and 1TB Transfer for
+<strong>$5/mo</strong>! <a class="learn-more" href="https://www.digitalocean.com/pricing">Learn more</a></p>
+<form accept-charset="UTF-8" action="https://cloud.digitalocean.com/registrations" class="form-inline" id="new_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="nKsRTmdEyaoc0uD9WV3+PWPlCQDZmDuHs3RGYQ91yNs=" type="hidden"></div><fieldset>
+<input id="user_signup_form_name" name="user[signup_form_name]" value="articles" type="hidden">
+  <fieldset id="register">
+    <legend>Create an account or login:</legend>
+
+    <div class="field">
+      <input id="user_email" name="user[email]" placeholder="Email" required="required" type="text">
+    </div>
+
+    <div class="field">
+      <input data-toggle="tooltip" id="user_password" name="user[password]" placeholder="Password" rel="tooltip-focus" required="required" title="Must be at least 6 characters long and it must contain at least one letter" type="password">
+    </div>
+  </fieldset>
+
+<div class="field">
+<input class="button" name="commit" value="Get Started!" type="submit">
+</div>
+</fieldset>
+</form>
+
+</div>
+</div>
+
+
+  <div id="comment-wrapper" class="tutorial-comments">
+    <h4>206 Comments</h4>
+    <a href="https://www.digitalocean.com/community/get-paid-to-write" class="write">
+      <span class="icon-edit"></span> Write Tutorial
+</a>    <div>
+  <ul class="comment-responses ">
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/81054d6098535e026b633a9f54c2e659.png" height="80" width="80">
+  <a class="full-name">subhantech</a>
+  <span id="1343137319" class="time-ago" title="2012-07-24 13:41:59 UTC">almost 2 years</span>
+  <p class="comment-copy">
+"Uncomment the correct lines in “location ~ \.php$ {“ section" ---
+
+Can you Give little eloboration on this. What settings needs to 
+uncomment. I am getting. 502 bat gateway error. whil accessing a PHP 
+page.
+
+Thanks in advance</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/81054d6098535e026b633a9f54c2e659.png" height="80" width="80">
+  <a class="full-name">subhantech</a>
+  <span id="1343137929" class="time-ago" title="2012-07-24 13:52:09 UTC">almost 2 years</span>
+  <p class="comment-copy">My bad. Typo.. You can delete my comments. it worked.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1343168446" class="time-ago" title="2012-07-24 22:20:46 UTC">almost 2 years</span>
+  <p class="comment-copy">No problem, glad you got it working =]</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/ed196dafb71369db1c2e274f3cfb1c25.jpeg" height="80" width="80">
+  <a class="full-name">Guilherme</a>
+  <span id="1344396522" class="time-ago" title="2012-08-08 03:28:42 UTC">almost 2 years</span>
+  <p class="comment-copy">Hello,
+
+I configured my servet just like this but my server is not behaving as 
+expected when I try to access a URL that doesn't exist.
+
+If I try to access http://myserver/3i1idaosdj (a file that does not 
+exist), I get a 500 Internal Server Error.
+
+If I try to access http://myserver/3i1idaosdj.php (a file that does not 
+exist and the URL ends with .php), I get a message saying "No input file
+ specified".
+
+Accessing the error log, I got the following message:
+
+2012/08/08 03:18:45 [error] 6699#0: *1 rewrite or internal redirection 
+cycle while internally redirecting to "/index.html", client: *my ip*, 
+server: localhost, request: "GET /3i1idaosdj HTTP/1.1", host: "*my 
+server ip*"
+
+Also, I configured the 404 error page in 
+/etc/nginx/sites-available/default, via:
+
+error_page 404 /404.html;
+
+And 404.html is properly placed in the website folder. Why this is not 
+working?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1344405858" class="time-ago" title="2012-08-08 06:04:18 UTC">almost 2 years</span>
+  <p class="comment-copy">In the nginx config make sure you updated:
+ server_name example.com;
+
+And replaced example.com with your actual domain name and then test it through the web.
+
+If you just have an IP and not a domain name you can use that as well.
+
+If you're still having a problem paste us your nginx config and we can help go through it.
+
+Thanks</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/ed196dafb71369db1c2e274f3cfb1c25.jpeg" height="80" width="80">
+  <a class="full-name">Guilherme</a>
+  <span id="1344426603" class="time-ago" title="2012-08-08 11:50:03 UTC">almost 2 years</span>
+  <p class="comment-copy">Here is my /etc/nginx/sites-available/default code:
+
+http://d.pr/n/KgJt</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1344435574" class="time-ago" title="2012-08-08 14:19:34 UTC">almost 2 years</span>
+  <p class="comment-copy">You have a small typo near the end :
+
+location ~ /\.ht {
+		deny all;
+	}
+}
+
+It should be:
+
+location ~ /\.ht/ {
+		deny all;
+	}
+}
+
+However, this wouldnt be the cause for the issues you were having. I did
+ test the URL via the IP for both a non-existent file, received the 404,
+ and a non-existent file ending in .php and got good 404 errors for 
+both.
+
+Visiting the IP directly I did get the phpinfo() page, I'm assuming you 
+made an index.php?
+
+If that's the case I don't really see what issue you are having unless 
+you are uploading php files and they aren't displaying or if you are 
+uploading static content and having an issue. 
+
+What URL are you hitting that you should see something and you dont? And
+ can you show me the file listing in:
+/srv/www/test/
+
+Thanks.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/ed196dafb71369db1c2e274f3cfb1c25.jpeg" height="80" width="80">
+  <a class="full-name">Guilherme</a>
+  <span id="1344441206" class="time-ago" title="2012-08-08 15:53:26 UTC">almost 2 years</span>
+  <p class="comment-copy">raiyu, thanks for the help, I solved the problem today, that's why you got the 404 working.
+
+Here is my modified /etc/nginx/sites-available/default code. Hope it helps in case that someone have the same issue:
+
+http://d.pr/n/IRuL
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1e826dd2b99a91cccf131abbabfd3bc9.jpeg" height="80" width="80">
+  <a class="full-name">rjyanyan18</a>
+  <span id="1350554504" class="time-ago" title="2012-10-18 10:01:44 UTC">over 1 year</span>
+  <p class="comment-copy">Hello. Your tutorial is good. I want to change the current document root directory to "home/user101/box/devs"
+How can I do that? I'm new to Nginx. Thanks and more power!</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1350567780" class="time-ago" title="2012-10-18 13:43:00 UTC">over 1 year</span>
+  <p class="comment-copy">Inside the server { } directive there is a root directive that which specifies where to serve files from:
+
+server {
+  root /home/user101/box/devs;
+}</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6c5ea8d872dd64f80c1367c8ca78e794.png" height="80" width="80">
+  <a class="full-name"></a>
+  <span id="1353789853" class="time-ago" title="2012-11-24 20:44:13 UTC">over 1 year</span>
+  <p class="comment-copy">i try everyting this is fun but really boring;
+
+500 Internal Server Error
+
+nginx/1.1.19 all the time.
+
+ but still better than regular hosting. i am going old school LAMP :D</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1353791920" class="time-ago" title="2012-11-24 21:18:40 UTC">over 1 year</span>
+  <p class="comment-copy">Check your error log and paste why its 
+returning a 500 error for you.
+
+For security reasons any error will return 500 publicly so as not to 
+distribute any sensitive error messages to the public internet.
+
+It could be something as simple that the PHP script you are executing is
+ being executed but is simply failing because of a code issue.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/c4ea261db5ed26e95b6e29db59a04125.png" height="80" width="80">
+  <a class="full-name">Neil Sweeney</a>
+  <span id="1354063991" class="time-ago" title="2012-11-28 00:53:11 UTC">over 1 year</span>
+  <p class="comment-copy">I'm getting a 502 gateway error...
+
+[error] 15479#0: *1 connect() failed (111: Connection refused) while 
+connecting to upstream, client: *.*.*.*, server: 141.0.170.212, request:
+ "GET /info.php HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: 
+"141.0.170.212"
+
+Seems to me that the server is refusing connections to port 9000, but 
+I've not made any changes to disallow this (nor any to allow it really).
+
+Thanks.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/c4ea261db5ed26e95b6e29db59a04125.png" height="80" width="80">
+  <a class="full-name">Neil Sweeney</a>
+  <span id="1354147650" class="time-ago" title="2012-11-29 00:07:30 UTC">over 1 year</span>
+  <p class="comment-copy">I've not solved the issue directly, but I 
+found that the issue could of been I was using Ubuntu 12.10 x64. I'm now
+ using 12.4 x32 and it works perfectly.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0d5a8b4a9a1b371b795bf5d30b9d839b.png" height="80" width="80">
+  <a class="full-name">msx</a>
+  <span id="1355124640" class="time-ago" title="2012-12-10 07:30:40 UTC">over 1 year</span>
+  <p class="comment-copy">Nice HowTo!
+Now, as a totally n00b to nginx, how do I configure it to redirect all 
+WAN incoming traffic to a virtualserver while sending all LAN traffic to
+ another virtual server?
+Thanks in advance,
+Martin</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1355251944" class="time-ago" title="2012-12-11 18:52:24 UTC">over 1 year</span>
+  <p class="comment-copy">There are a number of ways to do this, the 
+easiest way is to setup a separate domain / server_name / server block 
+for the internal LAN.
+
+Then for internal communication since you would be communicating on 
+different IPs that would take care of it.
+
+So the public communication would be over the public IP with the listen 
+directive, while the local communication can be done by setting the 
+listen directive to a private LAN IP. Since the LAN IP is not visible 
+from the public internet any communication that occurs over it is 
+automatically private.
+
+And it doesn't require any complex proxying rules.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/ce385afeef4f1c1fffea25a3e554e454.png" height="80" width="80">
+  <a class="full-name">Sabbir</a>
+  <span id="1355992000" class="time-ago" title="2012-12-20 08:26:40 UTC">over 1 year</span>
+  <p class="comment-copy">I am having memory issue with ubantu 12.04 
+droplet. After installing nginx/php/mysql and web2py I have found that 
+memory is is slowly used up and needed to reboot to free up. So 
+discarded every thing and rebuild the droplet. Nothing is installed on 
+it, still memory issues remains.
+
+Here is the detail:
+https://docs.google.com/open?id=0B3z4rMfDQSHIcmpLZ1pqU1JVbjg
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1356026624" class="time-ago" title="2012-12-20 18:03:44 UTC">over 1 year</span>
+  <p class="comment-copy">Depending on the process you are running 
+memory isn't always freed up, instead it is cached until another 
+application needs to use it.
+
+If you are consistently having issues I'd recommend you install swap 
+space according to this tutorial:
+https://www.digitalocean.com/community/articles/how-to-add-swap-on-ubuntu-12-04
+
+This
+ should help in your situation and if you start using a lot of swap you 
+may want to resize to a larger virtual server because you may just be 
+running more applications than your virtual server can support.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/ce385afeef4f1c1fffea25a3e554e454.png" height="80" width="80">
+  <a class="full-name">Sabbir</a>
+  <span id="1356070697" class="time-ago" title="2012-12-21 06:18:17 UTC">over 1 year</span>
+  <p class="comment-copy">After doing some experiment with ubantu, found
+ that even in a new instance if you just run these :
+#sudo apt-get update
+#sudo apt-get -u upgrade
+the used memory will not be freed long after the execution. It is only 
+freed after you do a reboot.
+
+so I destroyed my ubantu instance and created a fedora instance:
+-----------------------
+Last login: Thu Dec 20 20:13:36 2012 from 180.234.111.171
+[root@fedora01 ~]# free -m
+             total       used       free     shared    buffers     
+cached
+Mem:           497        428         68          0         33        
+359
+-/+ buffers/cache:         35        461
+Swap:            0          0          0
+[root@fedora01 ~]# history
+    1  free -m
+    2  free -m
+    3  yum update
+    4  free -m
+    5  free
+    6  free -m
+    7  top
+    8  free -m
+    9  top
+   10  free -m
+   11  history
+[root@fedora01 ~]# 
+-----------------------------------------------
+
+The above are all the commands that was run after the instance created. 
+RAM is already used up and i guess wont be released until a reboot.
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1356105937" class="time-ago" title="2012-12-21 16:05:37 UTC">over 1 year</span>
+  <p class="comment-copy">RAM should get freed up as different 
+applications are started and start using memory since a lot of memory 
+gets used as cache and will be automatically replaced.
+
+Also if you add swap space:
+https://www.digitalocean.com/community/articles/how-to-add-swap-on-ubuntu-12-04
+
+You
+ can give your virtual server a buffer so if you do end up using more 
+RAM than your system has you will see your swap space grow. Otherwise 
+you should see that the cached memory is released and used up by other 
+applications without increasing swap usage.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/183552bd72cb5371380b27a28eac5e76.png" height="80" width="80">
+  <a class="full-name">Ryan</a>
+  <span id="1356973266" class="time-ago" title="2012-12-31 17:01:06 UTC">over 1 year</span>
+  <p class="comment-copy">If you are looking for a tutorial to install 
+and configure a LEMP Stack on Debian (6) Squeeze. I have published a 
+guide on my website located at 
+http://techhelper.info/12/30/2012/debain-squeeze-lemp-stack/ .</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/65a8f6dc5dfaaee2afc49246398c87e6.jpeg" height="80" width="80">
+  <a class="full-name">Carl E. Moebis IV</a>
+  <span id="1358268689" class="time-ago" title="2013-01-15 16:51:29 UTC">over 1 year</span>
+  <p class="comment-copy">I followed the instructions to the letter (except using 12.10 32bit) and when I look at the info.php, I get: 
+
+"The page you are looking for is temporarily unavailable. Please try again later."</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/65a8f6dc5dfaaee2afc49246398c87e6.jpeg" height="80" width="80">
+  <a class="full-name">Carl E. Moebis IV</a>
+  <span id="1358269186" class="time-ago" title="2013-01-15 16:59:46 UTC">over 1 year</span>
+  <p class="comment-copy">Fixed. Needs this (socket instead of port?):
+
+                #fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a66b560a1dc1f0386002e465629ce6ba.jpeg" height="80" width="80">
+  <a class="full-name">Nate Bird</a>
+  <span id="1358349932" class="time-ago" title="2013-01-16 15:25:32 UTC">over 1 year</span>
+  <p class="comment-copy">@moebis I had the same problem. Changing to a socket connection made it work for me. Thanks!</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/3ab95241b8ec6521c921c5978876e356.jpeg" height="80" width="80">
+  <a class="full-name">ajma</a>
+  <span id="1358362147" class="time-ago" title="2013-01-16 18:49:07 UTC">over 1 year</span>
+  <p class="comment-copy">+1 withe the same problem as @moebis and @natebird</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/da3961f6cafb7728ec7f81f7c54cea28.png" height="80" width="80">
+  <a class="full-name">ajmorris2002</a>
+  <span id="1358383814" class="time-ago" title="2013-01-17 00:50:14 UTC">over 1 year</span>
+  <p class="comment-copy">One thing I found with this tutorial is that 
+it doesn't seem to build the connection between php5 and mysql. I'm 
+still working on getting WordPress to run, but I needed to run a 'sudo 
+apt-get install php5-mysql' and that connected them.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/f5886bd981d2cf01101da6e7d2832fea.jpeg" height="80" width="80">
+  <a class="full-name">kevin</a>
+  <span id="1358426882" class="time-ago" title="2013-01-17 12:48:02 UTC">over 1 year</span>
+  <p class="comment-copy">Having permission issues using Transmit by 
+Panic to connect to my droplet. Seems I can login, but all the folders 
+are owned by root. I now can't login as root, and my user can't change 
+ownership. What to do?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1358447816" class="time-ago" title="2013-01-17 18:36:56 UTC">over 1 year</span>
+  <p class="comment-copy">SSH to the server as root and change the ownership of the directory that your user logins into.
+
+# chown username:group /directory/user/logs/in/to
+
+And then the user will be able to login and upload files.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/2ea31ef3268f4006b91e704364231890.jpeg" height="80" width="80">
+  <a class="full-name">dvogel</a>
+  <span id="1358792929" class="time-ago" title="2013-01-21 18:28:49 UTC">over 1 year</span>
+  <p class="comment-copy">Tried this but end up with an error when 
+viewing info.php. *The page you are looking for is temporarily 
+unavailable.
+Please try again later.*
+
+From the error.log "2013/01/21 18:05:46 [crit] 6027#0: *1 connect() to 
+unix:/var/run/php5-fpm.sock failed (2: No such file or directory) while 
+conne$"
+
+Any ideas?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e0d763552b28cf19922eb92342c00981.jpeg" height="80" width="80">
+  <a class="full-name">Moisey</a>
+  <span id="1358810745" class="time-ago" title="2013-01-21 23:25:45 UTC">over 1 year</span>
+  <p class="comment-copy">Looks like fpm was either not running or not configured do a quick :
+
+# ps auxw | grep php-fpm
+
+To see if its listed in your process list.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/da01dbea6f1d88e8a1c39f48900d394b.jpeg" height="80" width="80">
+  <a class="full-name">Albert Yu</a>
+  <span id="1359042312" class="time-ago" title="2013-01-24 15:45:12 UTC">over 1 year</span>
+  <p class="comment-copy">@dvogel That's because php5-fpm doesn't use 
+sock so you can find "php5-fpm.sock" under path "/var/run/";
+
+If you follow this instruction to use sock, you have to modify the 
+default configuration for php5-fpm. To do this, edit: 
+"/etc/php5/fpm/pool.d/www.conf" and change this line:
+
+"listen 127.0.0.1:9000" 
+
+to
+
+"listen /var/run/php5-fpm.sock"
+
+the same path as you specified in nginx's default settings.
+
+After this you should restart your php5-fpm service by using:
+
+$ sudo service restart php5-fpm
+
+Then you can check if there is a php5-fpm.sock file under /var/run/, if 
+so, you've done a good job.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/da01dbea6f1d88e8a1c39f48900d394b.jpeg" height="80" width="80">
+  <a class="full-name">Albert Yu</a>
+  <span id="1359042580" class="time-ago" title="2013-01-24 15:49:40 UTC">over 1 year</span>
+  <p class="comment-copy">BTW, the newest version of php5-fpm has 
+already use sock as default listening option, but it only available for 
+php 5.4 +. Since Ubuntu's apt-get will install PHP 5.3 as default, so 
+you have to change this option, or use the old way.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/565b3e4baa1dec6c3f8f7b5956f72c6e.png" height="80" width="80">
+  <a class="full-name">wortheveythingbut</a>
+  <span id="1359301591" class="time-ago" title="2013-01-27 15:46:31 UTC">over 1 year</span>
+  <p class="comment-copy">I have followed the steps meticulously but i 
+find that when i go to http://youripaddress/info.php  it just asks me if
+ i want to download the info.php file..
+I think the  
+code should echo some settings but for me that page doesnt show but 
+instead asks me to download/save the info.php file..is that correct? 
+can anyone help me figure out what im doing wrong?
+using Ubuntu 12.10 x64 Server  
+thx
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/8e848a15bf193110e1152101513d1730.png" height="80" width="80">
+  <a class="full-name">Kevin Keeney</a>
+  <span id="1359872699" class="time-ago" title="2013-02-03 06:24:59 UTC">over 1 year</span>
+  <p class="comment-copy">@wortheverythingbut:
+I experienced the same thing, but if you'll notice that the file has 
+'improved' since this article. The file, info.php, we created showed for
+ me when I read this, 
+http://maketecheasier.com/install-lemp-server-in-ubuntu/2012/05/29.
+
+It's the config file, /etc/nginx/sites-available/default, in the section
+ about fast.cgi. Read the article to address the changes with commenting
+ and uncommenting.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/fecb42b1984daf382b891bb05d5b3362.png" height="80" width="80">
+  <a class="full-name">cosmin</a>
+  <span id="1361410350" class="time-ago" title="2013-02-21 01:32:30 UTC">over 1 year</span>
+  <p class="comment-copy">Actually, on Ubuntu 12.04 x32, PHP doesn't 
+work with sockets, it works with ports (see Albert's comment above). 
+Using sockets on 12.04 will give you a nice 502 Bad Gateway when 
+accessing any PHP page.
+
+However, if you're on Ubuntu 12.10 x32, sockets like in this tutorial, 
+will work (tested). It would be nice to update the tutorial, since it 
+refers to 12.04 and not 12.10</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/f47b69254debeb666e1970b13502d0f3.png" height="80" width="80">
+  <a class="full-name">jim</a>
+  <span id="1362046660" class="time-ago" title="2013-02-28 10:17:40 UTC">over 1 year</span>
+  <p class="comment-copy">My server is on a local lan, but I put in the 
+external IP instead of the 192-- IP.  Not sure if that is why Chrome 
+just downloads the PHP file instead of showing a processed info.php in 
+the browser window.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6d9035382051e917a9671877366e6353.png" height="80" width="80">
+  <a class="full-name">local8</a>
+  <span id="1363076532" class="time-ago" title="2013-03-12 08:22:12 UTC">about 1 year</span>
+  <p class="comment-copy">great tuts.. these are helpful php packages as well and fixed my featured image resize output in wordpress...
+sudo aptitude install php5-common
+sudo aptitude install php5-gd
+sudo aptitude install php5-cli
+sudo aptitude install php5-curl</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a82152473d0ec1d12a72fb5394be7527.png" height="80" width="80">
+  <a class="full-name">vic.palm2849</a>
+  <span id="1364645996" class="time-ago" title="2013-03-30 12:19:56 UTC">about 1 year</span>
+  <p class="comment-copy">I can't seem to get the nginx file changed to 
+how the config. instructions demonstrate.  The last portion is where I'm
+ having trouble:
+
+What needs to be uncommented or added too or what? Or do I just leave as
+ is.
+
+Can someone give me some hints please.
+
+
+  # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000W
+        location ~ \.php$ {
+                #fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/d79e7e1596b27365b36c6376eb97413d.png" height="80" width="80">
+  <a class="full-name">brian.sands</a>
+  <span id="1365290832" class="time-ago" title="2013-04-06 23:27:12 UTC">about 1 year</span>
+  <p class="comment-copy">@vic.palm2849  What you have there is correct. I'm betting you're getting a "This page is not available...." error right?
+If so, the fix was already stated above, but all you have to do is:
+1) sudo nano /etc/php5/fpm/pool.d/www.conf
+2) comment out the line for: listen = 127.0.0.1:9000
+3) ADD: listen = /var/run/php5-fpm.sock
+4) sudo service php5-fpm restart</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/de3bc4b1945a4baf307d35b985a92460.jpeg" height="80" width="80">
+  <a class="full-name">abunchofletters</a>
+  <span id="1365357269" class="time-ago" title="2013-04-07 17:54:29 UTC">about 1 year</span>
+  <p class="comment-copy">I followed another tutorial to install 
+Passenger and nginx to run my Ruby on Rails sites 
+(https://www.digitalocean.com/community/articles/how-to-install-rails-and-nginx-with-passenger-on-ubuntu).
+ This is up and running and works fine. 
+
+I've now ready to upload my old PHP sites so installed php5-fpm and 
+configured as this current article shows. I then added a new server 
+block to my nginx config file (/opt/nginx/conf/nginx.conf), like so:
+
+server {
+        listen 80;
+        server_name localhost;
+        root /home/rich/www/phptest;
+        index index.php index.html;
+        passenger_enabled off;
+
+        location / {
+                try_files $uri $uri/ /index.php;
+        }
+
+        location ~ \.php$ {
+                #fastcgi_pass 127.0.0.1:9000;
+                #include fastcgi_params;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
+    }
+
+Next I created index.php with the following contents:
+
+And as a sanity check, index.html which outputs a basic HTML page.
+Restarting PHP5-FPM and nginx and loading the pages, the HTML works 
+fine, but the PHP page is completely blank. No error message or status 
+code shown. 
+
+Tailing nginx's access.log shows:
+"GET /index.php HTTP/1.1" 200 31 "-" "Mozilla/5.0 (Macintosh; Intel Mac 
+OS X 10.8; rv:19.0) Gecko/20100101 Firefox/19.0"
+There isn't any entry in its error.log. If I stop the php5-fpm service, I
+ see a 502 Bad Gateway error in the browser and log. Restarting shows 
+the blank page again.
+
+Does anyone have any ideas on how to resolve this? Anything I can try? 
+If you need any more info, just ask.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/de3bc4b1945a4baf307d35b985a92460.jpeg" height="80" width="80">
+  <a class="full-name">abunchofletters</a>
+  <span id="1365357348" class="time-ago" title="2013-04-07 17:55:48 UTC">about 1 year</span>
+  <p class="comment-copy">The index.php contents were simply the php tags and phpinfo();</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a9c06e76caf8e983233846ee810b4c39.jpeg" height="80" width="80">
+  <a class="full-name">justinsoong</a>
+  <span id="1366434732" class="time-ago" title="2013-04-20 05:12:12 UTC">about 1 year</span>
+  <p class="comment-copy">abunchofletters i'm getting a blank phpinfo page too my conf looks like yours/article</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a9c06e76caf8e983233846ee810b4c39.jpeg" height="80" width="80">
+  <a class="full-name">justinsoong</a>
+  <span id="1366436535" class="time-ago" title="2013-04-20 05:42:15 UTC">about 1 year</span>
+  <p class="comment-copy">hey i made it work by placing:
+
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+before
+
+include fastcgi_params;</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/bad65d3d7319025d73e065d7a29ee22a.jpeg" height="80" width="80">
+  <a class="full-name">greg</a>
+  <span id="1366602377" class="time-ago" title="2013-04-22 03:46:17 UTC">about 1 year</span>
+  <p class="comment-copy">if you have a 502
+check the file: /etc/php5/fpm/pool.d/www.conf
+for me the listen directive was set for port 9000 rather than a unix socket, so I had to change the nginx conf to reflect that</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/37cc91c8a72b64f013552d8872ae12ae.jpeg" height="80" width="80">
+  <a class="full-name"></a>
+  <span id="1367017945" class="time-ago" title="2013-04-26 23:12:25 UTC">about 1 year</span>
+  <p class="comment-copy">I tried the samething for subdomain but did not work, is there something extra for a subdomain ?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/d1718ea28fdf6ef9b9cca32fb1559003.png" height="80" width="80">
+  <a class="full-name">dhananjaygoel123</a>
+  <span id="1367100969" class="time-ago" title="2013-04-27 22:16:09 UTC">about 1 year</span>
+  <p class="comment-copy">Have you taken care of this vulnerability here
+ - 
+https://nealpoole.com/blog/2011/04/setting-up-php-fastcgi-and-nginx-dont-trust-the-tutorials-check-your-configuration/</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6439dec3e3a89ce5aa79237d11a50348.jpeg" height="80" width="80">
+  <a class="full-name">Matt</a>
+  <span id="1368476239" class="time-ago" title="2013-05-13 20:17:19 UTC">about 1 year</span>
+  <p class="comment-copy">Marvelous!
+
+It took me a solid minute to figure out that I had to uncomment (delete 
+the # symbol) specific sections before I saved. Thanks for the solid 
+tutorial yo!</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/37cc91c8a72b64f013552d8872ae12ae.jpeg" height="80" width="80">
+  <a class="full-name"></a>
+  <span id="1368477622" class="time-ago" title="2013-05-13 20:40:22 UTC">about 1 year</span>
+  <p class="comment-copy">I tried this before and It worked, right now I
+ have new vps, I guess updated nginx has different configuration, I 
+searched and turns out this,
+
+fastcgi_pass 127.0.0.1:9000;
+  
+#fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+if fastcgi_pass unix used, you get the 502, which scares me a lot, but 
+uncomenting 127.... works, you should try again, the topic needs update</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/37cc91c8a72b64f013552d8872ae12ae.jpeg" height="80" width="80">
+  <a class="full-name"></a>
+  <span id="1368517307" class="time-ago" title="2013-05-14 07:41:47 UTC">about 1 year</span>
+  <p class="comment-copy">I need help now, I am trying this since 
+tomorrow, how can i add www to my nginx confs, I am trying my old 
+configuration file, but it does not seem to work, how can i do this ?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/2ff878d54ea98022aebba533272b9d5b.png" height="80" width="80">
+  <a class="full-name">martin.taklaja</a>
+  <span id="1368521027" class="time-ago" title="2013-05-14 08:43:47 UTC">about 1 year</span>
+  <p class="comment-copy">"o apt-get install php5-fpm"
+is not working anymore.
+
+I get an error
+E: Couldn't find package php5-fpm
+
+
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1368530004" class="time-ago" title="2013-05-14 11:13:24 UTC">about 1 year</span>
+  <p class="comment-copy">You can add www by simply adding another value after the server_name directive:
+server_name www.mydomain.com mydomain.com;
+
+@martin.taklaja try running apt-get update first.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/29a5dbfd87e4ef8caf91bbd55ef07861.png" height="80" width="80">
+  <a class="full-name">Miguel Morachimo</a>
+  <span id="1368920020" class="time-ago" title="2013-05-18 23:33:40 UTC">about 1 year</span>
+  <p class="comment-copy">worked like a charm with @brian_sands tip</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/37cc91c8a72b64f013552d8872ae12ae.jpeg" height="80" width="80">
+  <a class="full-name"></a>
+  <span id="1369048187" class="time-ago" title="2013-05-20 11:09:47 UTC">about 1 year</span>
+  <p class="comment-copy">hi, how can I create tumblr like subdmains, 
+for example, username.tumblr.com, and how should I add cnames for this 
+purpose on my dns ? thank you</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1369061075" class="time-ago" title="2013-05-20 14:44:35 UTC">about 1 year</span>
+  <p class="comment-copy">^: You can set up a wildcard A record (* A 
+1.2.3.4) where 1.2.3.4 is your droplet's IP address. After that you can 
+add a server alias of *.yourdomain.com by simply passing it as an 
+additional argument to the server_name directive.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/37cc91c8a72b64f013552d8872ae12ae.jpeg" height="80" width="80">
+  <a class="full-name"></a>
+  <span id="1369073299" class="time-ago" title="2013-05-20 18:08:19 UTC">about 1 year</span>
+  <p class="comment-copy">I should write " * " as hostname and I should 
+write ip adress as my " ip adress " as an A record, and I should add " 
+*.domain.com " as a server_name to nginx,
+
+to get subdomain variable should I use this ?, rewrite 
+^/([/0-9a-zA-Z-_]+)/$ /tab.php?tab_id=$1 last;
+
+thank you for your help :), I hope I am not bothering you</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a867b28b418d08ea8b2483945000f658.png" height="80" width="80">
+  <a class="full-name">jtbowlin</a>
+  <span id="1369597570" class="time-ago" title="2013-05-26 19:46:10 UTC">about 1 year</span>
+  <p class="comment-copy">Fixed it.. the key is here:
+
+location ~ \.php$ {
+                #fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+change to:
+
+location ~ \.php$ {
+                fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                #fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+which is just swapping which line has the # in front of it.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a867b28b418d08ea8b2483945000f658.png" height="80" width="80">
+  <a class="full-name">jtbowlin</a>
+  <span id="1369597618" class="time-ago" title="2013-05-26 19:46:58 UTC">about 1 year</span>
+  <p class="comment-copy">BTW, That was in /etc/nginx/sites-available/default</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1369642810" class="time-ago" title="2013-05-27 08:20:10 UTC">about 1 year</span>
+  <p class="comment-copy">@(Posted May 20th, 2013 18:08): Sorry, it should be a wildcard CNAME record not an A record.
+Yes, what you said is correct.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/972a2afcf1472359a156560ed680e1b3.png" height="80" width="80">
+  <a class="full-name">bradleither</a>
+  <span id="1369683206" class="time-ago" title="2013-05-27 19:33:26 UTC">about 1 year</span>
+  <p class="comment-copy">Hi,
+
+I've been stuck with no idea what went wrong at the info.php creation 
+step. I followed everything to that point exactly, and then when I went 
+to save the info.php in the /usr/share/nginx/www patj i get [ Error 
+writing /usr/share/nginx/www/phpinfo.php: No such file or directory ].
+
+Now I have no idea what i missed. Any help would be appreciated, thanks.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/972a2afcf1472359a156560ed680e1b3.png" height="80" width="80">
+  <a class="full-name">bradleither</a>
+  <span id="1369683289" class="time-ago" title="2013-05-27 19:34:49 UTC">about 1 year</span>
+  <p class="comment-copy">I'm on Ubuntu 13.04 x64 Server by the way.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1369734261" class="time-ago" title="2013-05-28 09:44:21 UTC">about 1 year</span>
+  <p class="comment-copy">@bradleither: What's the output of ("stat /usr/share/nginx/www")?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/972a2afcf1472359a156560ed680e1b3.png" height="80" width="80">
+  <a class="full-name">bradleither</a>
+  <span id="1369794588" class="time-ago" title="2013-05-29 02:29:48 UTC">about 1 year</span>
+  <p class="comment-copy">I got it all worked out, thanks.
+
+First it was that the www folder didn't exist (no step said you have to 
+add it) so the first thing I did was make it and try to give it 
+permissions, but it wasn't working for me for some reason either.
+
+I started over and this time, since it creates a /usr/share/nginx/html 
+folder, what I did was just rename it using sudo mv 
+/usr/share/nginx/html /usr/share/nginx/www and it seems to got me past 
+the hurdle I encountered.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1369828293" class="time-ago" title="2013-05-29 11:51:33 UTC">about 1 year</span>
+  <p class="comment-copy">@bradleither Glad to hear that. I've just 
+tried installing nginx on a fresh Ubuntu 12.04 droplet and it created a 
+directory called www, not html. What Ubuntu version are you on?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1369828345" class="time-ago" title="2013-05-29 11:52:25 UTC">about 1 year</span>
+  <p class="comment-copy">Oh I see, you're on 13.04. I think the nginx package maintainers changed the default directory to /usr/share/nginx/html.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0de259db59c7f2d92d43574b7b890313.jpeg" height="80" width="80">
+  <a class="full-name">lucas</a>
+  <span id="1369849001" class="time-ago" title="2013-05-29 17:36:41 UTC">about 1 year</span>
+  <p class="comment-copy">I got white page screen and I have to add:
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+to location ~ \.php$</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1369897967" class="time-ago" title="2013-05-30 07:12:47 UTC">about 1 year</span>
+  <p class="comment-copy">Thanks @lucas, updated the article :]</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1a645ce2c915a7e983495f905124b77d.png" height="80" width="80">
+  <a class="full-name">digitalocean</a>
+  <span id="1370887857" class="time-ago" title="2013-06-10 18:10:57 UTC">12 months</span>
+  <p class="comment-copy">I got to step five and cannot find sudo nano /etc/php5/pool.d/www.conf or /var/run/php5-fpm.sock in my install.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1370888480" class="time-ago" title="2013-06-10 18:21:20 UTC">12 months</span>
+  <p class="comment-copy">It could be in /etc/php5/fpm/pool.d/www.conf - please check.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1a645ce2c915a7e983495f905124b77d.png" height="80" width="80">
+  <a class="full-name">digitalocean</a>
+  <span id="1370889961" class="time-ago" title="2013-06-10 18:46:01 UTC">12 months</span>
+  <p class="comment-copy">I just figured out that /etc/php5/pool.d/www.conf should be /etc/php5/fpm/pool.d/www.conf on my recent install</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1a645ce2c915a7e983495f905124b77d.png" height="80" width="80">
+  <a class="full-name">digitalocean</a>
+  <span id="1370890019" class="time-ago" title="2013-06-10 18:46:59 UTC">12 months</span>
+  <p class="comment-copy">Thanks Kamal, I just figured that out before I saw your response.  Thanks for responding though.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1370893396" class="time-ago" title="2013-06-10 19:43:16 UTC">12 months</span>
+  <p class="comment-copy">Glad it all works now! :]</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/248af833f08f7251406762bbc282bc33.png" height="80" width="80">
+  <a class="full-name">reddiamondforlife</a>
+  <span id="1371400689" class="time-ago" title="2013-06-16 16:38:09 UTC">12 months</span>
+  <p class="comment-copy">In the tutorial you describe:
+We need to make another small change in the php5-fpm configuration.Open 
+up www.conf:
+ sudo nano /etc/php5/pool.d/www.conf
+
+wel its exacly sudo nano /etc/php5/fpm/pool.d/www.conf
+
+But SOO much thanks for this tutorial, now all i need to find is a 
+tutorial to make on top of the lemp a mailserver, any suggestions where 
+to find that ? </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1371469322" class="time-ago" title="2013-06-17 11:42:02 UTC">12 months</span>
+  <p class="comment-copy">Thanks @reddiamondforlife, I've updated the article. We have a couple articles on mail on Ubuntu:
+
+https://www.digitalocean.com/community/articles/how-to-install-and-setup-postfix-on-ubuntu-12-04
+
+or 
+
+https://www.digitalocean.com/community/articles/how-to-install-iredmail-on-ubuntu-12-10-x64</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/7c58b3ab8f609ad9a7951c6c4265a65c.jpeg" height="80" width="80">
+  <a class="full-name">Brad Griffin</a>
+  <span id="1371853721" class="time-ago" title="2013-06-21 22:28:41 UTC">12 months</span>
+  <p class="comment-copy">Making a feeble attempt to do this right - the
+ first time, I have a quick question.  In step five, where it mentions 
+editing the line, I noticed that there is a semicolon in front of that 
+line.  Should that semicolon be
+
+Removed from the line?
+Remain on the line?
+
+Thanks for the help! -Brad</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1371893236" class="time-ago" title="2013-06-22 09:27:16 UTC">12 months</span>
+  <p class="comment-copy">@brad A semicolon in php5-fpm's config marks the line as a comment, so you have to remove it for php5-fpm to actually parse it.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/d43997645981fda42523c5ae56260ef5.jpeg" height="80" width="80">
+  <a class="full-name">ceo</a>
+  <span id="1372196420" class="time-ago" title="2013-06-25 21:40:20 UTC">11 months</span>
+  <p class="comment-copy">So as to Kamal's observation on 13.04 64 bit 
+do we create the php.info in the html director or rename the html 
+directory to www? What else would this affect?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/d43997645981fda42523c5ae56260ef5.jpeg" height="80" width="80">
+  <a class="full-name">ceo</a>
+  <span id="1372196550" class="time-ago" title="2013-06-25 21:42:30 UTC">11 months</span>
+  <p class="comment-copy">I meant info.php</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/d43997645981fda42523c5ae56260ef5.jpeg" height="80" width="80">
+  <a class="full-name">ceo</a>
+  <span id="1372229611" class="time-ago" title="2013-06-26 06:53:31 UTC">11 months</span>
+  <p class="comment-copy">btw, Thought I would save everyone some time. 
+When info.php wants to download instead of compiling and running MAKE 
+SURE you UNCOMMENT the following line:
+
+location ~ \.php$ {
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/7c58b3ab8f609ad9a7951c6c4265a65c.jpeg" height="80" width="80">
+  <a class="full-name">Brad Griffin</a>
+  <span id="1372914861" class="time-ago" title="2013-07-04 05:14:21 UTC">11 months</span>
+  <p class="comment-copy">Who wants to do a screenshare via join.me and 
+walk me throught this process?  I've done this several times w/ no 
+success.  Apparently, every time the article mentions something that 
+might be simple to most people like "update your configuration 
+appropriately", my butt has no freakin' clue what to "update 
+appropriately"!!  I don't want to remain ignorant, yet I'm running out 
+of time.  Everytime I 'do' this article, it takes around 20 minutes. 
+
+But I'm looking for one definitive (I follow directions 'too' well, 
+sometimes) set of instructions, start to finish, beginning to end, no 
+comments that I have to wonder (does that comment apply to me?), no 
+wondering "uh.. what 'configurations' am I really supposed to be 
+updating", or anything else.
+
+I'd like to record what we do and use it to create a video (yes, I said 
+video) tutorial for other folks to use here on DigitalOcean.  So, who's 
+with me?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/cb30652a54af2272334c3593ea98be4e.png" height="80" width="80">
+  <a class="full-name">dked146</a>
+  <span id="1373086614" class="time-ago" title="2013-07-06 04:56:54 UTC">11 months</span>
+  <p class="comment-copy">What went wrong with this?
+
+* Restarting nginx
+ * Stopping nginx nginx
+   ...done.
+ * Starting nginx nginx
+nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+nginx: [emerg] still could not bind()
+   ...done.
+   ...done.
+
+Any advise?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1373094366" class="time-ago" title="2013-07-06 07:06:06 UTC">11 months</span>
+  <p class="comment-copy">@dked146 nginx is still running, "pkill nginx" and "service nginx start" should fix that.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/673a907957293afacf73653b643285f4.jpeg" height="80" width="80">
+  <a class="full-name">Dzulhelmi Jumat</a>
+  <span id="1374207859" class="time-ago" title="2013-07-19 04:24:19 UTC">11 months</span>
+  <p class="comment-copy">By default the line
+cgi.fix_pathinfo=1
+
+is commented. Should we uncomment it or just change the value to 0 without uncomment it?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1374222431" class="time-ago" title="2013-07-19 08:27:11 UTC">11 months</span>
+  <p class="comment-copy">@Dzulhelmi: Uncomment it and set it to 0.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/4fc92f2ca325066bb164478e385909fd.png" height="80" width="80">
+  <a class="full-name">r.l.lopez66</a>
+  <span id="1374224806" class="time-ago" title="2013-07-19 09:06:46 UTC">11 months</span>
+  <p class="comment-copy">I am getting a message 
+Restarting nginx: nginx: [emerg] unexpected "c" in  /etc/nginx/sites-enabled/default:67
+nginx: configuration file /etc/nginx/nginx.conf test failed
+
+Can you tell me what I did wrong? </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1374226492" class="time-ago" title="2013-07-19 09:34:52 UTC">11 months</span>
+  <p class="comment-copy">@r.l.lopez66: Please paste the output of the following command:
+
+cat /etc/nginx/sites-enabled/default | curl -F 'sprunge= http://sprunge.us</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/673a907957293afacf73653b643285f4.jpeg" height="80" width="80">
+  <a class="full-name">Dzulhelmi Jumat</a>
+  <span id="1374455883" class="time-ago" title="2013-07-22 01:18:03 UTC">11 months</span>
+  <p class="comment-copy">This guide mention to change
+listen = listen = 127.0.0.1:9000
+to
+listen = /var/run/php5-fpm.sock
+
+But actually by changing this, the sample info.php file will show 502 
+Bad Gateway error.
+
+After i google, i found this page 
+http://wildlyinaccurate.com/solving-502-bad-gateway-with-nginx-php-fpm 
+which mention just let it at localhost so the php file can be run
+
+My question is WHY? why it shows that error page? Anyone can explain? It
+ seems like useless if we point to localhost when we really NEED is to 
+have php to run on fpm, right?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1374479548" class="time-ago" title="2013-07-22 07:52:28 UTC">11 months</span>
+  <p class="comment-copy">Dzulhelmi, listening on a socket is technically a bit faster than listening on a TCP port.
+
+The error depends on your nginx config:
+
+fastcgi_pass 127.0.0.1:9000;
+
+..requires you to have php5-fpm listening on port 9000.
+
+While
+
+fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+..requires you to have php5-fpm listening on a socket located in /var/run.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/673a907957293afacf73653b643285f4.jpeg" height="80" width="80">
+  <a class="full-name">Dzulhelmi Jumat</a>
+  <span id="1374651288" class="time-ago" title="2013-07-24 07:34:48 UTC">10 months</span>
+  <p class="comment-copy">I dont know why i still get the "No input file selected"
+Can someone help me? 
+
+This is my nginx 
+http://pastebin.com/2HvkwnHi</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1374689484" class="time-ago" title="2013-07-24 18:11:24 UTC">10 months</span>
+  <p class="comment-copy">@Dzulhelmi: Delete "fastcgi_split_path_info 
+^(.+\.php)(/.+)$;" and uncomment "# fastcgi_param SCRIPT_FILENAME 
+$document_root$fastcgi_script_name;"
+
+Restart nginx. That should fix it.
+
+Also, I believe you want "index.html" to be "index.php" in the following
+ line:
+
+                try_files $uri $uri/ /index.html;</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/673a907957293afacf73653b643285f4.jpeg" height="80" width="80">
+  <a class="full-name">Dzulhelmi Jumat</a>
+  <span id="1374711760" class="time-ago" title="2013-07-25 00:22:40 UTC">10 months</span>
+  <p class="comment-copy">@Kamal Nasser: It still not working. 
+And why i have to delete the  "fastcgi_split_path_info 
+^(.+\.php)(/.+)$;" when i already have "cgi.fix_pathinfo = 0;" in 
+php.ini?
+
+Does this problem because of "fastcgi_pass unix:/var/run/php5-fpm.sock;"
+ and "fastcgi_pass 127.0.0.1:9000;"?
+I try to use either one, but both not working.
+
+Or is this because of permission problem? How to know that i am having 
+permission problem?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1374752465" class="time-ago" title="2013-07-25 11:41:05 UTC">10 months</span>
+  <p class="comment-copy">Let's not duplicate this. We'll stick to this 
+question thread: 
+https://www.digitalocean.com/community/questions/no-input-file-specified</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/c128cd671fa01a7c2376fba2ff12531e.jpeg" height="80" width="80">
+  <a class="full-name">Pablo of vDevices.com</a>
+  <span id="1375305212" class="time-ago" title="2013-07-31 21:13:32 UTC">10 months</span>
+  <p class="comment-copy">In comparing this LEMP tutorial with <a href="https://www.digitalocean.com/community/articles/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu">How to Install Linux, Apache, MySQL, PHP (LAMP) stack on Ubuntu</a>,
+ I noticed that the MySQL section of the LAMP tutorial outlines more 
+steps than the same section of this tutorial. Is the LAMP tutorial 
+advocating unnecessary steps or is this LEMP tutorial missing some 
+needed steps to properly get MySQL set up correctly? </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1375391321" class="time-ago" title="2013-08-01 21:08:41 UTC">10 months</span>
+  <p class="comment-copy">Thanks Pablo, the extra steps are actually recommended. I've updated this article :]</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6243854baf77d757b19d6fb265d4846a.jpeg" height="80" width="80">
+  <a class="full-name">caserjan</a>
+  <span id="1375411969" class="time-ago" title="2013-08-02 02:52:49 UTC">10 months</span>
+  <p class="comment-copy">Nice tutorials, got me running in less than an
+ hour, just one quick question... i notice on mysql installation part 
+that libapache2-mod-auth-mysql is included, isn't this apache module? is
+ it necessary if you are running nginx? would it affect the overall 
+server setup if i excluded this one?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1375439464" class="time-ago" title="2013-08-02 10:31:04 UTC">10 months</span>
+  <p class="comment-copy">@caserjan: You can uninstall it if you want: sudo apt-get remove libapache2-mod-auth-mysql.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/00eb0dd8c3cd1298b05f09661f0c2b45.png" height="80" width="80">
+  <a class="full-name">vsync.design</a>
+  <span id="1376231399" class="time-ago" title="2013-08-11 14:29:59 UTC">10 months</span>
+  <p class="comment-copy">If I install NGINX on a machine which already has Apache, how do i remove Apache from it?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1376231937" class="time-ago" title="2013-08-11 14:38:57 UTC">10 months</span>
+  <p class="comment-copy">@vsync.design: </p><pre>sudo apt-get remove apache2</pre><p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/7b8892507cb6ede85be9ccb17132a6d1.jpeg" height="80" width="80">
+  <a class="full-name">cmmartin24</a>
+  <span id="1377027381" class="time-ago" title="2013-08-20 19:36:21 UTC">10 months</span>
+  <p class="comment-copy">This article is excellent. I got up and running in 5min. No headaches. No throwing away cloud servers in frustration. Thanks.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/c81f0eade9fc772e32e50bfa5a7122c0.png" height="80" width="80">
+  <a class="full-name">edgarlambarena</a>
+  <span id="1377047131" class="time-ago" title="2013-08-21 01:05:31 UTC">10 months</span>
+  <p class="comment-copy">sudo service nginx restart
+restarting nginx: nginx: [emerg] "location" directive is not allowed here in /etc/nginx/sites-enabled/default:62
+nginx: configuration file /etc/nginx/nginx.conf test failed
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1377105667" class="time-ago" title="2013-08-21 17:21:07 UTC">10 months</span>
+  <p class="comment-copy">@edgarlambarena: What's do you have in /etc/nginx/sites-enabled/default?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/ebaa31c120beea38cf599cb6e074d457.jpeg" height="80" width="80">
+  <a class="full-name">info</a>
+  <span id="1377597158" class="time-ago" title="2013-08-27 09:52:38 UTC">9 months</span>
+  <p class="comment-copy">Good article.. i think i will translate it to my italian blog and give you credit.
+
+Thanks for sharing.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/7dd71475484540c9711957958fa44b3a.png" height="80" width="80">
+  <a class="full-name">ajesamson</a>
+  <span id="1377700624" class="time-ago" title="2013-08-28 14:37:04 UTC">9 months</span>
+  <p class="comment-copy">How do i uninstall nginx and do a fresh setup</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1377711123" class="time-ago" title="2013-08-28 17:32:03 UTC">9 months</span>
+  <p class="comment-copy">@ajesamson: </p><pre>sudo apt-get purge nginx*
+sudo rm -r /etc/nginx</pre><p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/19e6e823e5502f9b0869cde2b313b9a4.png" height="80" width="80">
+  <a class="full-name">freesurveyblog.com</a>
+  <span id="1378194150" class="time-ago" title="2013-09-03 07:42:30 UTC">9 months</span>
+  <p class="comment-copy">@edgarlambarena: I had the same problem as your earlier but I fixed it by removing the # before location ~ \.php$
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/65c6878e8b46b76069eb03c63c7ff145.png" height="80" width="80">
+  <a class="full-name">mrgusmuller</a>
+  <span id="1378329733" class="time-ago" title="2013-09-04 21:22:13 UTC">9 months</span>
+  <p class="comment-copy">tutorial worked like a charm! :)
+Obrigado</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/d951ef1c86ec7aafb71d5033788f3545.png" height="80" width="80">
+  <a class="full-name">82.nitin</a>
+  <span id="1378722133" class="time-ago" title="2013-09-09 10:22:13 UTC">9 months</span>
+  <p class="comment-copy">hi i have done as per the above configuration 
+but when i go to the info.php  it just download the info.php file on my 
+comp that i created with no details ...any clue ?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1378746390" class="time-ago" title="2013-09-09 17:06:30 UTC">9 months</span>
+  <p class="comment-copy">@82.nitin: Please pastebin your nginx virtualhost config.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/70902cb1ddde044449ed1004baaf3838.jpeg" height="80" width="80">
+  <a class="full-name">Nilesh Londhe</a>
+  <span id="1378843691" class="time-ago" title="2013-09-10 20:08:11 UTC">9 months</span>
+  <p class="comment-copy">I am running php5-fpm, nginx, MySQL with 
+freshly installed WordPress on digital ocean droplet with 500 MB ram. I 
+intermittently get 502 bad gateway  error. Errors go away if I refresh 
+the browser and things work out normally after that until the next 502 
+bad gateway error which also disappears with a browser refresh.
+
+This is probably needs some parameter tuned somewhere in my setup. 
+Appreciate if you can please advise a solution to this intermittent 502 
+bad gateway issue I am running into. Thanks.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/70902cb1ddde044449ed1004baaf3838.jpeg" height="80" width="80">
+  <a class="full-name">Nilesh Londhe</a>
+  <span id="1378847072" class="time-ago" title="2013-09-10 21:04:32 UTC">9 months</span>
+  <p class="comment-copy">I did not have any swap so I just added per 
+instructions 
+https://www.digitalocean.com/community/articles/how-to-add-swap-on-ubuntu-12-04
+
+Lets
+ see if the intermitten 502 bad gateway errors disappear. </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1378880625" class="time-ago" title="2013-09-11 06:23:45 UTC">9 months</span>
+  <p class="comment-copy">@Nilesh: MySQL usually uses a lot of memory by default.
+
+Try running mysqltuner.pl (<a href="http://www.howtoforge.com/tuning-mysql-performance-with-mysqltuner">http://www.howtoforge.com/tuning-mysql-performance-with-mysqltuner</a>) and see if it helps with MySQL's memory usage.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/073a54a2de6d0aa16b51c7560db818c9.png" height="80" width="80">
+  <a class="full-name">SaM5246</a>
+  <span id="1379182200" class="time-ago" title="2013-09-14 18:10:00 UTC">9 months</span>
+  <p class="comment-copy">please update the tutorial to reflect this
+
+Find the line, cgi.fix_pathinfo=1, and change the 1 to 0. 
+
+"Use CRTL W and type cgi.fix to help you find the file to edit" 
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/073a54a2de6d0aa16b51c7560db818c9.png" height="80" width="80">
+  <a class="full-name">SaM5246</a>
+  <span id="1379183435" class="time-ago" title="2013-09-14 18:30:35 UTC">9 months</span>
+  <p class="comment-copy">location ~ \.php$ {
+                #fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME 
+$document_root$fastcgi_script_name;
+                include fastcgi_params;
+
+Can someone recommend a solution for this last part above? should I 
+install fast cgi? What is the meaning of this whole "Change the correct 
+lines in “location ~ \.php$ {“ section" part???</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/073a54a2de6d0aa16b51c7560db818c9.png" height="80" width="80">
+  <a class="full-name">SaM5246</a>
+  <span id="1379185138" class="time-ago" title="2013-09-14 18:58:58 UTC">9 months</span>
+  <p class="comment-copy">ok so when I go to any php file in my /var/www
+ directory it doesn't do anything, this has to do with that last section
+ doesn't it? Any help? </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1379266601" class="time-ago" title="2013-09-15 17:36:41 UTC">9 months</span>
+  <p class="comment-copy">@SaM5246: Is php5-fpm running? What's the output of this command? </p><pre>sudo ps wwaux | grep php</pre><p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379831889" class="time-ago" title="2013-09-22 06:38:09 UTC">8 months</span>
+  <p class="comment-copy">After my changes shall it look like this?:
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #       fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        #       # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+        #
+        #       # With php5-cgi alone:
+        #       fastcgi_pass 127.0.0.1:9000;
+        #       # With php5-fpm:
+        #       #fastcgi_pass unix:/var/run/php5-fpm.sock;
+        #       fastcgi_index index.php;
+        #       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        #       include fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1379839985" class="time-ago" title="2013-09-22 08:53:05 UTC">8 months</span>
+  <p class="comment-copy">The final server block should look like this: <a href="https://p.kk7.me/kagacumose.nginx">https://p.kk7.me/kagacumose.nginx</a></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379844892" class="time-ago" title="2013-09-22 10:14:52 UTC">8 months</span>
+  <p class="comment-copy">or is this correct?
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        location ~ \.php$ {
+                #fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+
+        }
+
+        # deny access to .htaccess files, if Apache's document root</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1379845098" class="time-ago" title="2013-09-22 10:18:18 UTC">8 months</span>
+  <p class="comment-copy">Yes, make sure you include the try_files directive (see the link I posted above).</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379848755" class="time-ago" title="2013-09-22 11:19:15 UTC">8 months</span>
+  <p class="comment-copy">Great, thx, that link made this tutorial much easier to follow! And you were right, I had missed the try_files $uri =404;
+
+I though still get HTTP ERROR: 504. 
+
+And I've now added:
+include fastcgi_params;
+fastcgi_read_timeout 300;
+}
+at the script and set max_execution_time = 300 in php.ini and /etc/php5/fpm/pool.d/www.conf
+
+but still HTTP ERROR: 504 at http://111.111.1.1/info.php (fake IP number)
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1379849004" class="time-ago" title="2013-09-22 11:23:24 UTC">8 months</span>
+  <p class="comment-copy">php is timing out, does it work if you try to browse to info.php (which contains </p><pre>&lt;php phpinfo();</pre>)?<p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379850363" class="time-ago" title="2013-09-22 11:46:03 UTC">8 months</span>
+  <p class="comment-copy">That's what I did above. I also tried in a new
+ browser now, pasted http://111.111.1.1/info.php hit enter and same 
+result. Gateway Timeout. And I downloaded info.php and verified it got </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379850417" class="time-ago" title="2013-09-22 11:46:57 UTC">8 months</span>
+  <p class="comment-copy">&lt;?php phpinfo();...</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379852592" class="time-ago" title="2013-09-22 12:23:12 UTC">8 months</span>
+  <p class="comment-copy">Hmm, I ran free -m and it says total 491 used 
+479... I have Ubuntu 12:04, 64bit, so maybe that causes the problem? so I
+ might need to install swap as above?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1379852896" class="time-ago" title="2013-09-22 12:28:16 UTC">8 months</span>
+  <p class="comment-copy"><a href="http://www.linuxatemyram.com/">This should help</a></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379853484" class="time-ago" title="2013-09-22 12:38:04 UTC">8 months</span>
+  <p class="comment-copy">ah :-) so I got 354MB free...</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1379902414" class="time-ago" title="2013-09-23 02:13:34 UTC">8 months</span>
+  <p class="comment-copy">When I turned off the firewall it all worked :-)</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/61f8770f1456f09a64e125d61d39b4a3.jpeg" height="80" width="80">
+  <a class="full-name">chrisfargen</a>
+  <span id="1380751305" class="time-ago" title="2013-10-02 22:01:45 UTC">8 months</span>
+  <p class="comment-copy">Great tutorial! Straight-forward and works.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1380982666" class="time-ago" title="2013-10-05 14:17:46 UTC">8 months</span>
+  <p class="comment-copy">Maybe this is a good idea to add http://wiki.nginx.org/Upstart</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/2da40f762686fec7f2714a6a98e64a67.png" height="80" width="80">
+  <a class="full-name">Nicholas Ong</a>
+  <span id="1381215177" class="time-ago" title="2013-10-08 06:52:57 UTC">8 months</span>
+  <p class="comment-copy">Followed the details to the 'T'...
+
+sudo service nginx restart
+Restarting nginx: nginx: [emerg] could not build the server_names_hash, you should increase server_names_hash_bucket_size: 32
+nginx: configuration file /etc/nginx/nginx.conf test failed
+
+what does this mean?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/2da40f762686fec7f2714a6a98e64a67.png" height="80" width="80">
+  <a class="full-name">Nicholas Ong</a>
+  <span id="1381292260" class="time-ago" title="2013-10-09 04:17:40 UTC">8 months</span>
+  <p class="comment-copy">nevermind. it works now.
+instead of using ip address, entering the domain name works just fine.
+
+server_name example.com;</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1381447320" class="time-ago" title="2013-10-10 23:22:00 UTC">8 months</span>
+  <p class="comment-copy">I followed this tutorial and everything worked
+ fine. But after following 
+https://www.digitalocean.com/community/articles/how-to-install-express-a-node-js-framework-and-set-up-socket-io-on-a-vps
+  my phpinfo file showed "The page you are looking for is temporarily 
+unavailable." 
+When I run php5-fpm -t I get:
+[10-Oct-2013 23:14:41] ERROR: [/etc/php5/fpm/pool.d/www.conf:385] value 
+is NULL for a ZEND_INI_PARSER_ENTRY
+[10-Oct-2013 23:14:41] ERROR: Unable to include 
+/etc/php5/fpm/pool.d/www.conf from /etc/php5/fpm/php-fpm.conf at line 
+385
+[10-Oct-2013 23:14:41] ERROR: failed to load configuration file 
+'/etc/php5/fpm/php-fpm.conf'
+[10-Oct-2013 23:14:41] ERROR: FPM initialization failed
+What can I do to fix this?
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1381448495" class="time-ago" title="2013-10-10 23:41:35 UTC">8 months</span>
+  <p class="comment-copy">Line 385 in www.conf shows: emergency_restart_threshold 10</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1381448932" class="time-ago" title="2013-10-10 23:48:52 UTC">8 months</span>
+  <p class="comment-copy">line 386: emergency_restart_interval 1m
+line 387: process_control_timeout 10s</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0b87203cd7f880dd423ae560aaa38a7d.png" height="80" width="80">
+  <a class="full-name">Asterix</a>
+  <span id="1381449524" class="time-ago" title="2013-10-10 23:58:44 UTC">8 months</span>
+  <p class="comment-copy">Hmm, now I remember.., sorry I think I added 
+these lines from 
+http://www.if-not-true-then-false.com/2011/nginx-and-php-fpm-configuration-and-optimizing-tips-and-tricks/
+ When I now removed the three lines it all works fine again. But maybe 
+they where good to have?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1381562560" class="time-ago" title="2013-10-12 07:22:40 UTC">8 months</span>
+  <p class="comment-copy">@Asterix: These lines belong in php-fpm.conf and not www.conf</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0751e49421594f2c69bba19608c92836.png" height="80" width="80">
+  <a class="full-name">challeesmith</a>
+  <span id="1381592797" class="time-ago" title="2013-10-12 15:46:37 UTC">8 months</span>
+  <p class="comment-copy">When i put in sudo apt-get install php5-fpm i get E: Cpuldn't find package php5-fpm</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/b16542002cdfb04f3872cfc2b0af7cf0.jpeg" height="80" width="80">
+  <a class="full-name">alex</a>
+  <span id="1381594769" class="time-ago" title="2013-10-12 16:19:29 UTC">8 months</span>
+  <p class="comment-copy">after doing all of the above, my browser tries to download index.php instead of executing it.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0751e49421594f2c69bba19608c92836.png" height="80" width="80">
+  <a class="full-name">challeesmith</a>
+  <span id="1381600041" class="time-ago" title="2013-10-12 17:47:21 UTC">8 months</span>
+  <p class="comment-copy">when I add:
+ 
+I keep getting an error saying: no file or directory</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0751e49421594f2c69bba19608c92836.png" height="80" width="80">
+  <a class="full-name">challeesmith</a>
+  <span id="1381600093" class="time-ago" title="2013-10-12 17:48:13 UTC">8 months</span>
+  <p class="comment-copy">EDIT: after i add the file in info and save it it says can not write no such file or directory</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/95754857d3557bf9b829ced36c2774ca.jpeg" height="80" width="80">
+  <a class="full-name">csfalcao</a>
+  <span id="1381709344" class="time-ago" title="2013-10-14 00:09:04 UTC">8 months</span>
+  <p class="comment-copy">Using Ubuntu 13.04 32, definitely can't make 
+info.php work, browsers just download the file. All the rest looks fine,
+ now testing WP install</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/95754857d3557bf9b829ced36c2774ca.jpeg" height="80" width="80">
+  <a class="full-name">csfalcao</a>
+  <span id="1381712639" class="time-ago" title="2013-10-14 01:03:59 UTC">8 months</span>
+  <p class="comment-copy">Can't get past to that: "Welcome to nginx!"
+Well, I'm happy for a fist timer, but definitely would like to finish 
+this LEMP install, may wipe out droplet and install Ubuntu 12.04?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1381928239" class="time-ago" title="2013-10-16 12:57:19 UTC">8 months</span>
+  <p class="comment-copy">@alex / @csfalcao: Did you follow Step 6?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1381928250" class="time-ago" title="2013-10-16 12:57:30 UTC">8 months</span>
+  <p class="comment-copy">@challeesmith: Please post the exact command you're running</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/00a415107896ef0e296b259c4ae6e40a.png" height="80" width="80">
+  <a class="full-name">rongmotamhon</a>
+  <span id="1382185331" class="time-ago" title="2013-10-19 12:22:11 UTC">8 months</span>
+  <p class="comment-copy">Thanks a lot for this post. I  read this and successfully install my server at <a href="http://rongmotamhon.net/"> http://rongmotamhon.net </a></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1d7731c7ebb5b258e28d8a41cbdaf99d.png" height="80" width="80">
+  <a class="full-name">Adam</a>
+  <span id="1382216691" class="time-ago" title="2013-10-19 21:04:51 UTC">8 months</span>
+  <p class="comment-copy">Has anyone managed this on Ubuntu 13.10? 
+
+I ran the command sudo apt-get update &amp;&amp; sudo apt-get upgrade 
+followed by the command sudo apt-get install mysql-server 
+libapache2-mod-auth-mysql php5-mysql
+
+However I get this error - 
+
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Package libapache2-mod-auth-mysql is not available, but is referred to 
+by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'libapache2-mod-auth-mysql' has no installation candidate
+
+I'm aware 13.10 is a new release and I doubt there's a solution, or 
+might not even be due to 13.10.
+
+Any help would be appreciated.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1d7731c7ebb5b258e28d8a41cbdaf99d.png" height="80" width="80">
+  <a class="full-name">Adam</a>
+  <span id="1382224632" class="time-ago" title="2013-10-19 23:17:12 UTC">8 months</span>
+  <p class="comment-copy">In response to my post above since I can't 
+edit, I figured it out incase anyone else wishes to set it up on 13.10 
+as well.
+
+Firstly I scrapped running the command -
+
+sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
+ 
+And instead ran the commands separately -
+
+sudo apt-get install mysql-server
+sudo apt-get install php5-mysql
+
+And went on with the rest of the steps to complete the set up, as far as
+ I can see everything works without libapache2-mod-auth-mysql, although 
+I'm not quite sure what this does and if it's even needed.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/1d7731c7ebb5b258e28d8a41cbdaf99d.png" height="80" width="80">
+  <a class="full-name">Adam</a>
+  <span id="1382231865" class="time-ago" title="2013-10-20 01:17:45 UTC">8 months</span>
+  <p class="comment-copy">Apologies for the third post in a row, but 
+after wondering why we needed libapache2-mod-auth-mysql, I download the 
+.deb and placed it on the server itself and ran the command sudo dpkg -i
+ libapache2-mod-auth-mysql.deb and received the following errors -
+
+Selecting previously unselected package libapache2-mod-auth-mysql.
+(Reading database ... 56932 files and directories currently installed.)
+Unpacking libapache2-mod-auth-mysql (from libapache2-mod-auth-mysql.deb)
+ ...
+dpkg: dependency problems prevent configuration of 
+libapache2-mod-auth-mysql:
+ libapache2-mod-auth-mysql depends on apache2.2-common (&gt;= 2.2.3-3); 
+however:
+  Package apache2.2-common is not installed.
+
+dpkg: error processing libapache2-mod-auth-mysql (--install):
+ dependency problems - leaving unconfigured
+Errors were encountered while processing:
+ libapache2-mod-auth-mysql
+
+Also just noticed that on August the 2nd Kamal responded to a previous 
+comment stating we can uninstall this package, so after all it is 
+actually not needed, just a heads up for future 13.10 installers. :)</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/213bc5e1c0c6a21d1e097c0379ed3646.jpeg" height="80" width="80">
+  <a class="full-name">Martin </a>
+  <span id="1383275610" class="time-ago" title="2013-11-01 03:13:30 UTC">7 months</span>
+  <p class="comment-copy">I just installed Ubuntu + zpanel is it possible to install nginx with zpanel and not use apache? </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1383321266" class="time-ago" title="2013-11-01 15:54:26 UTC">7 months</span>
+  <p class="comment-copy">@Martin: Unfortunately zpanel does not support nginx.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0269f35df7108395370307c7ca9c7423.png" height="80" width="80">
+  <a class="full-name">PigGy</a>
+  <span id="1383383524" class="time-ago" title="2013-11-02 09:12:04 UTC">7 months</span>
+  <p class="comment-copy">I'm confuse at this part 'sudo nano /etc/nginx/sites-available/default'
+
+pls take a look at my code http://d.pr/f/wqEt
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1383391991" class="time-ago" title="2013-11-02 11:33:11 UTC">7 months</span>
+  <p class="comment-copy">@PigGy: Run this command:
+</p><pre>curl -s https://p.kk7.me/raw/caqonicigi | sudo tee /etc/nginx/sites-available/default</pre>
+That should update the default file for you.<p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0269f35df7108395370307c7ca9c7423.png" height="80" width="80">
+  <a class="full-name">PigGy</a>
+  <span id="1383393459" class="time-ago" title="2013-11-02 11:57:39 UTC">7 months</span>
+  <p class="comment-copy">@Kamal Nasser wow, it work immediately once I refresh my ipsaddress/php.info 
+thank you very much, now i can move on to next step </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6378663bfc46b3aabf80cd7e3eb43dda.jpeg" height="80" width="80">
+  <a class="full-name">narobycaronte</a>
+  <span id="1383606068" class="time-ago" title="2013-11-04 23:01:08 UTC">7 months</span>
+  <p class="comment-copy">I'm trying to activate mod rewrite but I'm having a problem here
+First I typed sudo a2enmod rewrite
+for Apache I can simply type this sudo nano /etc/apache2/sites-available/default but I'm not using Apache.
+Where do I change this using Nginx?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1383643801" class="time-ago" title="2013-11-05 09:30:01 UTC">7 months</span>
+  <p class="comment-copy">@narobycaronte: Nginx has its rewrite module enabled by default, see <a href="https://www.digitalocean.com/community/articles/nginx.org/en/docs/http/converting_rewrite_rules.html">nginx.org/en/docs/http/converting_rewrite_rules.html</a> and <a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html">http://nginx.org/en/docs/http/ngx_http_rewrite_module.html</a>.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6378663bfc46b3aabf80cd7e3eb43dda.jpeg" height="80" width="80">
+  <a class="full-name">narobycaronte</a>
+  <span id="1383673660" class="time-ago" title="2013-11-05 17:47:40 UTC">7 months</span>
+  <p class="comment-copy">hmm ok Thanks Kamal. Trued to get in contact with you but didn't reply :P I'm FidbecK</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/c128cd671fa01a7c2376fba2ff12531e.jpeg" height="80" width="80">
+  <a class="full-name">Pablo of vDevices.com</a>
+  <span id="1383845197" class="time-ago" title="2013-11-07 17:26:37 UTC">7 months</span>
+  <p class="comment-copy">In <b>Step Two</b>, is the <code>libapache2-mod-auth-mysql</code> package needed -- given that the article is about installing Nginx, as part of the LEMP stack, and <b>not</b> Apache?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1384080332" class="time-ago" title="2013-11-10 10:45:32 UTC">7 months</span>
+  <p class="comment-copy">@Pablo: Nice catch, it's not needed. It's an 
+apache module to allow MySQL auth when using HTTP Basic Authentication. 
+I've updated the article. Thanks!</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6378663bfc46b3aabf80cd7e3eb43dda.jpeg" height="80" width="80">
+  <a class="full-name">narobycaronte</a>
+  <span id="1384215181" class="time-ago" title="2013-11-12 00:13:01 UTC">7 months</span>
+  <p class="comment-copy">For any yet to find reason I'm not getting any kind of error even If i misspell the db name :S
+
+in php.ini I have error_reporting set to E_ALL &amp;&amp; E_STRICT (default values),  </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6378663bfc46b3aabf80cd7e3eb43dda.jpeg" height="80" width="80">
+  <a class="full-name">narobycaronte</a>
+  <span id="1384215989" class="time-ago" title="2013-11-12 00:26:29 UTC">7 months</span>
+  <p class="comment-copy">*yet to be found bahhhh
+and it is error_reporting = E_ALL &amp; ~E_DEPRECATED and not E_ALL &amp;&amp; E_STRICT Like I wrote :S sorry</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1384356185" class="time-ago" title="2013-11-13 15:23:05 UTC">7 months</span>
+  <p class="comment-copy">@arobycaronte: Is display_errors set to 1?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/40eb93d9800a38679e9269c788ed35b0.png" height="80" width="80">
+  <a class="full-name">ddbn.c2</a>
+  <span id="1384363161" class="time-ago" title="2013-11-13 17:19:21 UTC">7 months</span>
+  <p class="comment-copy">Common Mistakes and helps.
+
+* this package "libapache2-mod-auth-mysql" is not neccesary in Ubuntu 
+13.10 and greater versions
+* forget index.php in this line "index index.html index.htm;". Replace 
+with "index index.php index.html index.htm;" (whitout quotes). If not 
+contain index.php, when access to pages as localhost/info.php u have 
+dowload archive info.php
+* if you not have php5-mcrypt, you cant install with this command --&gt;
+ sudo apt-get install php5-mcrypt
+  after install you have edit php.ini to load mcrypt extension. How ?? 
+i'ts easy you only add "extension=mcrypt.so" (whitout quotes)
+* if you create info.php with only command. use this --&gt; "sudo echo 
+'' | sudo tee /usr/share/nginx/html/info.php" or  "sudo echo '' | sudo 
+tee /usr/share/nginx/www/info.php"
+* if you can't delete files without root, is that you not have a 
+./trash-xxxxx. I recommend 
+ sudo mkdir /.Trash-
+ sudo chown  /.Trash-
+ "general trash is ./Trash-1000"
+* if you can't access, add, del or mod /usr/share/nginx/html or 
+/usr/share/nginx/www. You have give permissions ----&gt; How give 
+permissions: sudo chown your_username -R /user/share/nginx/html or sudo 
+chown your_username -R /usr/share/nginx/www
+  </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6378663bfc46b3aabf80cd7e3eb43dda.jpeg" height="80" width="80">
+  <a class="full-name">narobycaronte</a>
+  <span id="1384472257" class="time-ago" title="2013-11-14 23:37:37 UTC">7 months</span>
+  <p class="comment-copy">@Kamal yes it is now but it's giving me more 
+errors than it should. bahhhh :S
+
+Maybe this article should be updated for 2 reasons, 1st create a new one
+ and add MariaDB instead of MySQL, and 2nd update nginx installation to 
+the latest version since this installs version 1.1.19 and the latest is 
+1.4</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/352c557f07bdcb755dcd2375bbc49280.png" height="80" width="80">
+  <a class="full-name">hopefloatt</a>
+  <span id="1385997274" class="time-ago" title="2013-12-02 15:14:34 UTC">6 months</span>
+  <p class="comment-copy">Hi, I do not get this part, can you please further elaborate on this statement:
+
+Change the correct lines in “location ~ \.php$ {“ section
+
+Appreciate your help, I am stuck at this part :(</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/352c557f07bdcb755dcd2375bbc49280.png" height="80" width="80">
+  <a class="full-name">hopefloatt</a>
+  <span id="1386000010" class="time-ago" title="2013-12-02 16:00:10 UTC">6 months</span>
+  <p class="comment-copy">This is how mine looks like before any changes:
+ #location ~ \.php$ {
+        #       fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        #       # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+        #
+        #       # With php5-cgi alone:
+        #       fastcgi_pass 127.0.0.1:9000;
+        #       # WiChange the correct lines in “location ~ \.php$ {“ section
+th php5-fpm:
+        #       fastcgi_pass unix:/var/run/php5-fpm.sock;
+        #       fastcgi_index index.php;
+        #       include fastcgi_params;
+
+
+So am i suppose to change it to exactly as per guide above:
+  # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+                
+        }
+
+
+Thanks
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/352c557f07bdcb755dcd2375bbc49280.png" height="80" width="80">
+  <a class="full-name">hopefloatt</a>
+  <span id="1386001776" class="time-ago" title="2013-12-02 16:29:36 UTC">6 months</span>
+  <p class="comment-copy">sorry for posting so many times. Please ignore
+ my above post. Instead, kindly let me know if I have made the correct 
+changes below.
+
+Before any changes were made:
+
+        # pass the PHP scripts to FastCGI server listening on 
+127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #       fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        #       # NOTE: You should have "cgi.fix_pathinfo = 0;" in 
+php.ini
+        #
+        #       # With php5-cgi alone:
+        #       fastcgi_pass 127.0.0.1:9000;
+        #       # With php5-fpm:
+        #       fastcgi_pass unix:/var/run/php5-fpm.sock;
+        #       fastcgi_index index.php;
+        #       include fastcgi_params;
+        #}
+
+I have amended the whole section to:
+
+        # pass the PHP scripts to FastCGI server listening on 
+127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #       try_files $uri =404;
+        #       fastcgi_pass unix:/var/run/php5-fpm.sock;
+        #       fastcgi_index index.php;
+        #       fastcgi_param SCRIPT_FILENAME 
+$document_root$fastcgi_script_name;
+        #       include fastcgi_params;
+        #}
+
+Please advise if this is correct? Thank you.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1386004681" class="time-ago" title="2013-12-02 17:18:01 UTC">6 months</span>
+  <p class="comment-copy">@hopefloatt: You need to uncomment the lines, 
+so you will have to delete all the # characters starting from the 
+location line until the last line, }.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/352c557f07bdcb755dcd2375bbc49280.png" height="80" width="80">
+  <a class="full-name">hopefloatt</a>
+  <span id="1386006117" class="time-ago" title="2013-12-02 17:41:57 UTC">6 months</span>
+  <p class="comment-copy">Thank you! It finally works! :)</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/073a54a2de6d0aa16b51c7560db818c9.png" height="80" width="80">
+  <a class="full-name">SaM5246</a>
+  <span id="1386265053" class="time-ago" title="2013-12-05 17:37:33 UTC">6 months</span>
+  <p class="comment-copy">location ~ \.php$ {
+   try_files $uri =404;
+   fastcgi_split_path_info ^(.+\.php)(/.+)$;
+   # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+ 
+    # With php5-cgi alone
+    fastcgi_pass 127.0.0.1:9000;
+    # With php5-fpm;
+#  fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_index index.php;
+    include fastcgi_params;
+  }
+
+Try the above in that section</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/fdda5420c20cbb2c6904b9d668ea0c64.png" height="80" width="80">
+  <a class="full-name">service</a>
+  <span id="1386524886" class="time-ago" title="2013-12-08 17:48:06 UTC">6 months</span>
+  <p class="comment-copy">was able to get welcome NGINX back, but not 
+i'm getting 502 Bad Gateway for the info.php file.  I tried every 
+recommendation here on the comments and nothing worked, here is my 
+config: 
+
+        # pass the PHP scripts to FastCGI server listening on 
+127.0.0.1:9000
+        #
+                location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                # NOTE: You should have "cgi.fix_pathinfo = 0;" in 
+php.ini
+
+                # With php5-cgi alone:
+                fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                # fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME
+                $document_root$fastcgi_script_name;
+                include fastcgi_params;
+        }
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/352c557f07bdcb755dcd2375bbc49280.png" height="80" width="80">
+  <a class="full-name">hopefloatt</a>
+  <span id="1386582779" class="time-ago" title="2013-12-09 09:52:59 UTC">6 months</span>
+  <p class="comment-copy">Hi, I installed LEMP recently. Some questions 
+on updating programs like mysql or nginx. Is there a need for me to 
+update to the latest patch for all these programs - for security 
+reasons? if it's needed, can i know the commands for updating for 
+example mysql? and how often should i be updating these programs?
+many thanks for your time.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1386584833" class="time-ago" title="2013-12-09 10:27:13 UTC">6 months</span>
+  <p class="comment-copy">@service: Answered your comment on another article.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1386584858" class="time-ago" title="2013-12-09 10:27:38 UTC">6 months</span>
+  <p class="comment-copy">@hopefloatt: Yes, you will need to update them in order to get the latest security patches:
+</p><pre>sudo apt-get update
+sudo apt-get upgrade</pre><p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/073a54a2de6d0aa16b51c7560db818c9.png" height="80" width="80">
+  <a class="full-name">SaM5246</a>
+  <span id="1386717117" class="time-ago" title="2013-12-10 23:11:57 UTC">6 months</span>
+  <p class="comment-copy">location / {
+                try_files $uri $uri/ /index.html;
+        }
+
+I changed the index.html part above to index.php and wordpress permalinks worked for me</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/6378663bfc46b3aabf80cd7e3eb43dda.jpeg" height="80" width="80">
+  <a class="full-name">narobycaronte</a>
+  <span id="1387634763" class="time-ago" title="2013-12-21 14:06:03 UTC">5 months</span>
+  <p class="comment-copy">As of nginx version 1.4.1 I believe it creates a html folder instead of the traditional www folder</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1387655969" class="time-ago" title="2013-12-21 19:59:29 UTC">5 months</span>
+  <p class="comment-copy">@narobycaronte: That's correct -- a note was added to the article (see Step Six) a while ago :]</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/5c2f0650cd01c34f2f7af1961e2fd226.jpeg" height="80" width="80">
+  <a class="full-name">pankas87</a>
+  <span id="1388796813" class="time-ago" title="2014-01-04 00:53:33 UTC">5 months</span>
+  <p class="comment-copy">A similar tutorial for intsalling ngingx + PHP + PostgreSQL would be awesome!!!</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/f5093d7863516815fc168f391bfbc7b0.png" height="80" width="80">
+  <a class="full-name">chrismckay.me</a>
+  <span id="1388827777" class="time-ago" title="2014-01-04 09:29:37 UTC">5 months</span>
+  <p class="comment-copy">Unable to get this working on Ubunto 13.10. 
+info.php simply downloads the file and phpmyadmin is a 403 redirect. Can
+ someone please help. Here is my server info for location
+
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                # NOTE: You should have "cgi.fix_pathinfo = 0;" in 
+php.ini
+
+                # With php5-cgi alone:
+                 fastcgi_pass 127.0.0.1:9000;
+                # With php5-fpm:
+                try_files $uri =404;
+                # fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME 
+$document_root$fastcgi_script_name;
+                include fastcgi_params;
+
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/48064b70dffc3343199df791a92c1d66.png" height="80" width="80">
+  <a class="full-name">kastony</a>
+  <span id="1388828474" class="time-ago" title="2014-01-04 09:41:14 UTC">5 months</span>
+  <p class="comment-copy">All ok except having some permission problem ( I think ) with jooma 3.2.
+Everything is working except uploading/installing a new module/component.
+I made chown -fR www-data:www-data /usr/share/nginx/html
+find /usr/share/nginx/html -type f -exec chmod 644 {} \;
+find //usr/share/nginx/html -type d -exec chmod 755 {} \; 
+Any suggestions ? 
+
+Thanks</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/f5093d7863516815fc168f391bfbc7b0.png" height="80" width="80">
+  <a class="full-name">chrismckay.me</a>
+  <span id="1388852281" class="time-ago" title="2014-01-04 16:18:01 UTC">5 months</span>
+  <p class="comment-copy">Update: I am convinced my nginx config are 
+fine. I think the issue is with php5-fm and switching from TC/IP to 
+socket. The php files are not being passed to php5-fm. Any ideas?
+</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/f5093d7863516815fc168f391bfbc7b0.png" height="80" width="80">
+  <a class="full-name">chrismckay.me</a>
+  <span id="1388853136" class="time-ago" title="2014-01-04 16:32:16 UTC">5 months</span>
+  <p class="comment-copy">Nope...switched to TC/IP, still getting the error. Sigh</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/f5093d7863516815fc168f391bfbc7b0.png" height="80" width="80">
+  <a class="full-name">chrismckay.me</a>
+  <span id="1388855475" class="time-ago" title="2014-01-04 17:11:15 UTC">5 months</span>
+  <p class="comment-copy">Ok, was able install with Ubuntu 12.04 without issues.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1388864117" class="time-ago" title="2014-01-04 19:35:17 UTC">5 months</span>
+  <p class="comment-copy">@pankas87: Follow this article skipping MySQL, and then follow <a href="https://www.digitalocean.com/community/articles/how-to-install-and-use-postgresql-on-ubuntu-12-04">https://www.digitalocean.com/community/articles/how-to-install-and-use-postgresql-on-ubuntu-12-04</a>.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1388864288" class="time-ago" title="2014-01-04 19:38:08 UTC">5 months</span>
+  <p class="comment-copy">@kastony: Please create a community question <a href="https://www.digitalocean.com/community/questions/new">https://www.digitalocean.com/community/questions/new</a>.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/95754857d3557bf9b829ced36c2774ca.jpeg" height="80" width="80">
+  <a class="full-name">csfalcao</a>
+  <span id="1388889263" class="time-ago" title="2014-01-05 02:34:23 UTC">5 months</span>
+  <p class="comment-copy">@Kamal Nasser Thanks, I followed the steps and
+ could finalize the install.
+After reboot (I did a snapshot) Nginx won't start. I´m running Ubuntu 
+13.10 64 and Nginx 1.4.1
+There´s no app in port 80, and "nginx -t" displayed "Segmentation fault 
+(core dumped)". I googled and find to install "nginx full" because 
+"ngninx extras" had the bug.
+Installed "ngninx full" and now "nginx *t" display "nginx: [emerg] 
+unexpected "n" in /etc/nginx/sites-enabled/default:37"
+I tried your answer here and used "cat /etc/nginx/sites-enabled/default |
+ curl -F 'sprunge=" and the output is "&gt;" only.
+I update Nginx to 1.4.4 but I'm stuck on that "nginx: [emerg] unexpected
+ "n" in /etc/nginx/sites-enabled/default:37"</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/95754857d3557bf9b829ced36c2774ca.jpeg" height="80" width="80">
+  <a class="full-name">csfalcao</a>
+  <span id="1388890661" class="time-ago" title="2014-01-05 02:57:41 UTC">5 months</span>
+  <p class="comment-copy">@Kamal Nasser I discovered the problem is my 
+"sites" configuration, just drop the default vhost file and it´s 
+running. Now I'll debug to find what is causing it, I was using this as 
+base: # W3TC config rules based on 
+http://elivz.com/blog/single/wordpress_with_w3tc_on_nginx/</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/95754857d3557bf9b829ced36c2774ca.jpeg" height="80" width="80">
+  <a class="full-name">csfalcao</a>
+  <span id="1388891218" class="time-ago" title="2014-01-05 03:06:58 UTC">5 months</span>
+  <p class="comment-copy">@Kamal Nasser Up and running http://discerne.com :) thanks.
+
+Now the "ultimate" challenge: add varnish (with woo commerce) and SSL (from CDN, it´s easier and cheaper).</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1388925420" class="time-ago" title="2014-01-05 12:37:00 UTC">5 months</span>
+  <p class="comment-copy">Glad to hear it's working now :] </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/260da93b534385c71ba824bec6eff92a.png" height="80" width="80">
+  <a class="full-name">arsena46@gmail.com<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l,b=document.getElementsByTagName("script");l=b[b.length-1].previousSibling;a=l.getAttribute('data-cfemail');if(a){s='';r=parseInt(a.substr(0,2),16);for(j=2;a.length-j;j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}s=document.createTextNode(s);l.parentNode.replaceChild(s,l);}}catch(e){}})();
+/* ]]> */
+</script></a>
+  <span id="1390314553" class="time-ago" title="2014-01-21 14:29:13 UTC">4 months</span>
+  <p class="comment-copy">Why browser is trying to download my /info.php
+ ..also can login in phpmyadmin its start downloading ? i have this 
+problem only with ngix</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/260da93b534385c71ba824bec6eff92a.png" height="80" width="80">
+  <a class="full-name">arsena46@gmail.com<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l,b=document.getElementsByTagName("script");l=b[b.length-1].previousSibling;a=l.getAttribute('data-cfemail');if(a){s='';r=parseInt(a.substr(0,2),16);for(j=2;a.length-j;j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}s=document.createTextNode(s);l.parentNode.replaceChild(s,l);}}catch(e){}})();
+/* ]]> */
+</script></a>
+  <span id="1390315069" class="time-ago" title="2014-01-21 14:37:49 UTC">4 months</span>
+  <p class="comment-copy">sorry missed step six..everithing worked </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/0222559dcd14861e1d42cb3e65f32cbd.png" height="80" width="80">
+  <a class="full-name">luudv2004</a>
+  <span id="1390537008" class="time-ago" title="2014-01-24 04:16:48 UTC">4 months</span>
+  <p class="comment-copy">How i can runn php files  in subfolders, i 
+tried config but don't work, here is my config:
+
+
+	location /admin/assets/ckfinder/core/connector/php {
+		root 
+/usr/share/nginx/html/mydomain.org/admin/assets/ckfinder/core/connector/php/;
+
+		index index.php;
+		
+		location ~ .php$ {
+			#fastcgi_split_path_info ^(.+\.php)(/.+)$;
+			fastcgi_pass unix:/var/run/php5-fpm.sock;
+			fastcgi_params;
+			#fastcgi_index index.php;
+			#fastcgi_param SCRIPT_FILENAME 
+/usr/share/nginx/html/mydomain.org/admin/assets/ckfinder/core/connector/php$fastcgi_script_name;
+
+			fastcgi_param SCRIPT_FILENAME  
+/usr/share/nginx/html/mydomain.org/admin/assets/ckfinder/core/connector/php$fastcgi_script_name;
+ 
+			fastcgi_param SCRIPT_FILENAME 
+/usr/share/nginx/html/mydomain.org/admin/assets/ckfinder/core/connector/php/$fastcgi_script_name;
+
+			fastcgi_param DOCUMENT_ROOT 
+/usr/share/nginx/html/mydomain.org/admin/assets/ckfinder/core/connector/php;
+		
+		}
+	}
+
+Thanks</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1391078874" class="time-ago" title="2014-01-30 10:47:54 UTC">4 months</span>
+  <p class="comment-copy">@luudv2004: You don't need that. Can you pastebin your virtualhost file?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/b98cf45d4aa96b4e377b02504a551732.jpeg" height="80" width="80">
+  <a class="full-name">Jason</a>
+  <span id="1391813907" class="time-ago" title="2014-02-07 22:58:27 UTC">4 months</span>
+  <p class="comment-copy">I'm running nginx 1.4.4 with this setup. I 
+upgraded from the 1.9.9 version that came default -- I made sure to use 
+the /html directory instead of www but I cannot get my info.php to come 
+up at all, I keep getting a 404 error...
+
+
+Not sure what to do. I checked /etc/php5/fpm/php.ini, 
+/etc/nginx/sites-available/default, restarted both nginx and fpm. Where 
+do I go from here?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/b98cf45d4aa96b4e377b02504a551732.jpeg" height="80" width="80">
+  <a class="full-name">Jason</a>
+  <span id="1391814555" class="time-ago" title="2014-02-07 23:09:15 UTC">4 months</span>
+  <p class="comment-copy">hmm somehow apache got reinstalled on my server... </p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/b98cf45d4aa96b4e377b02504a551732.jpeg" height="80" width="80">
+  <a class="full-name">Jason</a>
+  <span id="1391815650" class="time-ago" title="2014-02-07 23:27:30 UTC">4 months</span>
+  <p class="comment-copy">OK - last question for now: I got rid of 
+apache and got /info.php running on my server again with nginx via 
+IP-ADDRESS/info.php
+
+However, last time I set up nginx i could go to my IP address and get 
+the default index.html content on there. Now I'm getting a redirect 
+loop. I'm not sure why that could be, any ideas?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/b98cf45d4aa96b4e377b02504a551732.jpeg" height="80" width="80">
+  <a class="full-name">Jason</a>
+  <span id="1391815895" class="time-ago" title="2014-02-07 23:31:35 UTC">4 months</span>
+  <p class="comment-copy">Solved my own problem - double checked my 
+/etc/nginx/sites-enabled/default and I had a space after $uri so it was 
+try_files $uri $uri / /index.html; instead of try_files $uri $uri/ 
+/index.html;</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/413a2bdda823c760c0ff8edfe2aa2cfe.png" height="80" width="80">
+  <a class="full-name">meesmvk</a>
+  <span id="1391948097" class="time-ago" title="2014-02-09 12:14:57 UTC">4 months</span>
+  <p class="comment-copy">Its automatically downloading info.php OR any other php files.
+How to fix this. i followed your tutorial</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1392055394" class="time-ago" title="2014-02-10 18:03:14 UTC">4 months</span>
+  <p class="comment-copy">@meesmvk: Have you followed Step Six?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/713a884bf62d1e04db5866f434f0be08.png" height="80" width="80">
+  <a class="full-name">kokob42</a>
+  <span id="1392248673" class="time-ago" title="2014-02-12 23:44:33 UTC">4 months</span>
+  <p class="comment-copy">Its automatically downloading info.php OR any other php files.
+ 
+How to fix this. i followed your tutorial
+
+Same issue</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/713a884bf62d1e04db5866f434f0be08.png" height="80" width="80">
+  <a class="full-name">kokob42</a>
+  <span id="1392255249" class="time-ago" title="2014-02-13 01:34:09 UTC">4 months</span>
+  <p class="comment-copy">Got it working. Basically copy paste step 6 delete rest of code.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/434d69663d5cce5626a26b02e8be8507.png" height="80" width="80">
+  <a class="full-name">bilal.butter</a>
+  <span id="1394528843" class="time-ago" title="2014-03-11 09:07:23 UTC">3 months</span>
+  <p class="comment-copy">thanks mate</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/eb7bfced90bfae1a4be6accd971a6d02.png" height="80" width="80">
+  <a class="full-name">sunaytamashev</a>
+  <span id="1394737504" class="time-ago" title="2014-03-13 19:05:04 UTC">3 months</span>
+  <p class="comment-copy">Hi,
+I am new to the whole VPS server world, and am trying to configure my 
+droplet so I can install wordpress on it. 
+
+Read in a post that it is better to install it following this tutorial 
+https://www.digitalocean.com/community/articles/how-to-install-wordpress-nginx-php-and-varnish-on-ubuntu-12-04
+
+So
+ I started doing it step by step.
+I have created a sudo user and done the initial Ubunto server set up.
+
+I am now stuck on this one, and what it seems like on the last part of 
+it, where I have to add the default pages.
+
+Can someone please tell me if I am doing something wrong, or should I 
+just say, what am I doing wrong, because I know something is not right.
+
+I am using
+512MB Ram Ubuntu 12.04.3 x32
+
+this is a link to my code
+https://gist.github.com/artcny/9534596
+
+currently when I try to go to http://myipaddress.com/info.php I get a 
+message Can not connect to IP
+
+I also created the info.php file as per the tutorial here.
+
+Any ideas greatly appreciated.
+
+Thanks</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a44bcd2afe3a80d4b84324335fac6e58.png" height="80" width="80">
+  <a class="full-name">nicholausleary</a>
+  <span id="1398377290" class="time-ago" title="2014-04-24 22:08:10 UTC">about 1 month</span>
+  <p class="comment-copy">Hi,
+
+Nginx won't restart. It literally just says "fail". Any help would be greatly appreciated.
+
+Thanks,
+Nicholaus</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/a6051c05ce7dca251d644a1404210973.png" height="80" width="80">
+  <a class="full-name">Andrew SB</a>
+  <span id="1398440575" class="time-ago" title="2014-04-25 15:42:55 UTC">about 1 month</span>
+  <p class="comment-copy">@Nicholaus: If you could post the output of: 
+
+</p><pre>tail /var/log/nginx/error.log
+</pre>
+
+That should help us figure out what's going on.<p></p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/3245e61a37a5c880741e85b90a19501a.png" height="80" width="80">
+  <a class="full-name">jalaender</a>
+  <span id="1399034885" class="time-ago" title="2014-05-02 12:48:05 UTC">about 1 month</span>
+  <p class="comment-copy">Thank you, very nice article!</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/e4c8998ec44e60f779cdaf14b50a66a3.png" height="80" width="80">
+  <a class="full-name">postatender</a>
+  <span id="1401197302" class="time-ago" title="2014-05-27 13:28:22 UTC">7 days</span>
+  <p class="comment-copy">Hi. Same problem for me. My log is:
+2014/05/27 08:55:57 [emerg] 4337#0: duplicate location "/" in /etc/nginx/sites-e       nabled/default:41
+2014/05/27 08:56:40 [emerg] 4357#0: duplicate location "/" in /etc/nginx/sites-e       nabled/default:41
+2014/05/27 08:57:04 [emerg] 4396#0: duplicate location "/" in /etc/nginx/sites-e       nabled/default:41
+2014/05/27 09:04:48 [emerg] 4418#0: duplicate location "/" in /etc/nginx/sites-e       nabled/default:41
+root@classauto:~# duplicate location "/" in /etc/nginx/sites-e       nabled/default:41^C
+
+
+Can you help me out?</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+      <li>
+  <img alt="Gravatar" src="nginx%20tut1_files/215b6bc15b5cf772f9c4477a3ba0544b.jpeg" height="80" width="80">
+  <a class="full-name">Kamal Nasser</a>
+  <span id="1401207955" class="time-ago" title="2014-05-27 16:25:55 UTC">6 days</span>
+  <p class="comment-copy">@postatender: Please pastebin the contents of <code>/etc/nginx/sites-enabled/default</code>.</p>
+  <div class="comment-actions">
+    <a href="#tutorial-comment-submit">Reply</a>
+  </div>
+</li>
+  </ul>
+</div>
+
+    <div id="tutorial-comment-submit">
+  <h4>Leave a Comment</h4>
+  <div id="signed-in">
+  </div>
+
+  <div class="comments">
+
+    <form accept-charset="UTF-8" action="/community/articles/how-to-install-linux-nginx-mysql-php-lemp-stack-on-ubuntu-12-04/comments" class="simple_form new_comment" data-remote="true" id="new_comment" method="post" novalidate="novalidate"><div style="margin:0;padding:0;display:inline"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="nKsRTmdEyaoc0uD9WV3+PWPlCQDZmDuHs3RGYQ91yNs=" type="hidden"></div>
+      <div class="control-group text required"><div class="controls"><textarea class="text required textarea" cols="40" id="comment_content" name="comment[content]" placeholder="Leave a comment..." rows="20"></textarea></div></div>
+
+        <fieldset id="register">
+    <legend>Create an account or login:</legend>
+
+    <div class="field">
+      <input id="user_email" name="user[email]" placeholder="Email" required="required" type="text">
+    </div>
+
+    <div class="field">
+      <input data-toggle="tooltip" id="user_password" name="user[password]" placeholder="Password" rel="tooltip-focus" required="required" title="Must be at least 6 characters long and it must contain at least one letter" type="password">
+    </div>
+  </fieldset>
+
+
+      <div class="errors" style="clear:both;"></div>
+
+      <div class="field">
+        <input id="submit-comment" name="commit" value="Submit Comment" type="submit">      </div>
+</form>  </div>
+</div>
+
+<div class="new-comment loading">
+  <img alt="Ajax-loader" src="nginx%20tut1_files/ajax-loader-338c17cb4b726875e8bd8c70442e2bc4.gif">
+</div>
+  </div>
+  </div>
+</div>
+</div>
+<footer id="footer">
+  <div class="wrapper">
+    <div id="column-main" class="footer-column">
+      <a href="#" class="cloud-icon"></a>
+      <div id="copyright">
+
+        Copyright © 2014<br>
+        DigitalOcean ™ Inc.
+      </div>
+      <a href="http://nytm.org/made-in-nyc/" id="made-in-ny">Proudly Made in NY</a>
+
+      <div id="privacy">
+        <a href="https://www.digitalocean.com/legal/terms/">Terms, Privacy, &amp; Copyright</a>
+        <a href="#">Security</a>
+      </div>
+
+    </div>
+
+    <div id="column-product" class="footer-column">
+      <h3>Product</h3>
+      <ul>
+        <li><a href="https://www.digitalocean.com/pricing/">Pricing</a></li>
+        <li><a href="https://www.digitalocean.com/features/">Features</a></li>
+        <li><a href="https://www.digitalocean.com/customers/">Customers</a></li>
+        <li><a href="https://www.digitalocean.com/features/one-click-apps/">One-Click Apps</a></li>
+        <li><a href="https://api.digitalocean.com/">API</a></li>
+      </ul>
+    </div>
+
+    <div id="column-company" class="footer-column">
+      <h3>Company</h3>
+      <ul>
+        <li><a href="https://www.digitalocean.com/company/about/">About Us</a></li>
+        <li><a href="https://www.digitalocean.com/company/blog/">Blog</a></li>
+        <li><a href="https://www.digitalocean.com/company/careers/">Jobs</a></li>
+        <li><a href="https://www.digitalocean.com/company/press/">Press</a></li>
+        <li><a href="https://www.digitalocean.com/company/logos-and-badges/">Logos &amp; Badges</a></li>
+        <li><a href="https://www.digitalocean.com/company/events/">Events</a></li>
+        <li><a href="https://www.digitalocean.com/company/contact/" target="_blank">Contact</a></li>
+      </ul>
+    </div>
+
+    <div id="column-help" class="footer-column">
+      <h3>Help</h3>
+      <ul>
+        <li><a href="https://www.digitalocean.com/help/">Knowledgebase</a></li>
+        <li><a href="https://www.digitalocean.com/help/getting-started/">Getting Started</a></li>
+        <li><a href="http://digitalocean.uservoice.com/forums/136585-digital-ocean" target="_blank">Feedback</a></li>
+        <li><a href="https://www.digitalocean.com/referral-program/">Referral Program</a></li>
+        <li><a href="http://www.digitaloceanstatus.com/" target="_blank">Network Status</a></li>
+      </ul>
+    </div>
+
+    <div id="column-community" class="footer-column">
+      <h3>Community</h3>
+      <ul>
+        <li><a href="https://www.digitalocean.com/community/">Dashboard</a></li>
+        <li><a href="https://www.digitalocean.com/community/overview">Overview</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles">Tutorials</a></li>
+        <li><a href="https://www.digitalocean.com/community/questions">Questions</a></li>
+        <li><a href="https://www.digitalocean.com/community/projects">Projects</a></li>
+        <li><a href="https://www.digitalocean.com/community/articles/digitalocean-community-article-suggestions-and-ideas">Tutorial Suggestions</a></li>
+        <li><a href="https://www.digitalocean.com/community/get-paid-to-write">Get Paid to Write</a></li>
+      </ul>
+    </div>
+
+    <div id="column-connect" class="footer-column">
+      <h3>Connect</h3>
+      <ul>
+        <li class="twitter"><a href="https://twitter.com/digitalocean">Twitter</a></li>
+        <li class="facebook"><a href="https://www.facebook.com/DigitalOceanCloudHosting">Facebook</a></li>
+        <li class="linkedin"><a href="http://www.linkedin.com/company/digitalocean">LinkedIn</a></li>
+        <li class="google"><a href="https://plus.google.com/+Digitalocean/posts">Google+</a></li>
+        <li class="instagram"><a href="http://instagram.com/thedigitalocean">Instagram</a></li>
+      </ul>
+    </div>
+
+    <div id="droplet-count">
+      <span class="count">1,767,155</span> Droplets Launched
+    </div>
+  </div>
+</footer>
+
+<script type="text/javascript" src="nginx%20tut1_files/conversion.js">
+</script><img alt="" src="nginx%20tut1_files/a" border="0" height="1" width="1">
+<noscript>
+<div style="display:hidden;position:absolute;top:-1000px;">
+<img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/1010666955/?value=0&amp;label=g5d3CM2C9QIQy5v24QM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<script src="nginx%20tut1_files/oct.js" type="text/javascript"></script>
+<script type="text/javascript">twttr.conversion.trackPid('l4etp');</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=l4etp&p_id=Twitter" />
+<img height="1" width="1" style="display:none;" alt="" src="//t.co/i/adsct?txn_id=l4etp&p_id=Twitter" />
+</noscript>
+<script>
+  //<![CDATA[
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.async=true;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+  //]]>
+</script>
+<script>
+  //<![CDATA[
+    setTimeout(function(){var a=document.createElement("script");
+    var b=document.getElementsByTagName("script")[0];
+    a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0020/5850.js?"+Math.floor(new Date().getTime()/3600000);
+    a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+  //]]>
+</script>
+<script src="nginx%20tut1_files/application-3323b6d7d1860c78cdcd62c730a5e85c.js" type="text/javascript"></script>
+<script>
+  //<![CDATA[
+    (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+    typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
+    b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+    mixpanel.init("155e217a94fcfc75058909a4489b9c58");
+  //]]>
+</script>
+
+
+
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.async=true;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=439858199408280";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    window.___gcfg = {
+      lang: 'en-US',
+      parsetags: 'onload'
+    };
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+
+    var HN=[];HN.factory=function(e){return function(){HN.push([e].concat(Array.prototype.slice.call(arguments,0)))};},HN.on=HN.factory("on"),HN.once=HN.factory("once"),HN.off=HN.factory("off"),HN.emit=HN.factory("emit"),HN.load=function(){var e="hn-button.js";if(document.getElementById(e))return;var t=document.createElement("script");t.async=true;t.id=e,t.src="//hn-button.herokuapp.com/hn-button.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)},HN.load();
+  </script>
+<script>
+  //<![CDATA[
+    mixpanel.track("Page View");
+  //]]>
+</script>
+
+<script type="text/javascript">
+  (function() {
+    window._pa = window._pa || {};
+    var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
+    pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.perfectaudience.com/serve/51c8920f71ca6dc47d00002f.js";
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+  })();
+</script>
+<script type="text/javascript">
+  adroll_adv_id = "S4BPDI4QWNB57PEKEZSLIP";
+  adroll_pix_id = "4IDGVTPEAFC4TM2QKYNQ53";
+  (function () {
+  var oldonload = window.onload;
+  window.onload = function(){
+     __adroll_loaded=true;
+     var scr = document.createElement("script");
+     var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+     scr.setAttribute('async', 'true');
+     scr.type = "text/javascript";
+     scr.src = host + "/j/roundtrip.js";
+     ((document.getElementsByTagName('head') || [null])[0] ||
+      document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+     if(oldonload){oldonload()}};
+  }());
+</script>
+
+
+<iframe tabindex="-1" style="width: 1px; height: 1px; position: absolute; top: -100px;" src="nginx%20tut1_files/postmessageRelay.html" id="oauth2relay837384393" name="oauth2relay837384393"></iframe></body></html>
